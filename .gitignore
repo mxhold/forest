@@ -1,5 +1,5 @@
 node_modules
 server/dist
-var/*
-!var/log/.gitkeep
-!var/pid/.gitkeep
+var/log/*
+var/pid/*
+!/**/.gitkeep
