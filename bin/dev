@@ -2,7 +2,7 @@
 
 require 'io/console'
 
-PID_FILE = "server/server.pid"
+PID_FILE = "var/pid/server.pid"
 
 def check
   puts "Running checks..."
