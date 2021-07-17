@@ -1,0 +1,95 @@
+#!/usr/bin/env ruby
+
+require 'io/console'
+
+PID_FILE = "server/server.pid"
+
+def check
+  puts "Running checks..."
+  Dir.chdir("client") do
+    unless system("npm run check")
+      abort "Client check failed."
+    end
+  end
+
+  Dir.chdir("server") do
+    unless system("npm run check")
+      abort "Server check failed."
+    end
+  end
+  puts "Checks succeeded."
+end
+
+def build
+  puts "Building..."
+  Dir.chdir("client") do
+    unless system("npm run build")
+      abort "Client build failed."
+    end
+  end
+
+  Dir.chdir("server") do
+    unless system("npm run build")
+      abort "Server build failed."
+    end
+  end
+  puts "Builds succeeded."
+end
+
+def start
+  puts "Starting..."
+
+  Dir.chdir("server") do
+    system("npm run start")
+  end
+end
+
+def refresh
+  check
+  build
+  kill_server
+  start
+end
+
+def kill_server
+  return unless File.exists?(PID_FILE)
+  server_pid = File.read(PID_FILE)
+  if server_pid
+    Process.kill("HUP", server_pid.to_i)
+    File.delete(PID_FILE)
+  end
+end
+
+def quit
+  puts "Quitting..."
+  kill_server
+  Process.kill("HUP", 0)
+  exit
+end
+
+def help
+  puts "Commands: (c)heck, (b)uild, (s)tart, (r)efresh, (q)uit"
+end
+
+help
+
+loop do
+  putc ">"
+  key = STDIN.getch(min: nil, time: nil, intr: true)
+  puts key
+
+  case key
+  when "c"
+    check
+  when "b"
+    build
+  when "s"
+    start
+  when "r"
+    refresh
+  when "q", "\C-c", "\C-d", "\C-z", "\e"
+    quit
+  else
+    help
+  end
+end
