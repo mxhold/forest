@@ -40,7 +40,7 @@ def kill_server
   return unless File.exists?(SERVER_PID_FILE)
   server_pid = File.read(SERVER_PID_FILE)
   if server_pid
-    Process.kill("HUP", server_pid.to_i)
+    Process.kill("TERM", server_pid.to_i)
     File.delete(SERVER_PID_FILE)
   end
 
@@ -67,7 +67,7 @@ end
 def quit
   puts "Quitting..."
   kill_server
-  Process.kill("HUP", 0)
+  Process.kill("TERM", 0)
   exit
 end
 
