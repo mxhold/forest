@@ -1,14 +1,24 @@
 export class Canvas {
-  #ctx: CanvasRenderingContext2D
+  #ctx: CanvasRenderingContext2D;
 
-  constructor({ id, alpha, width, height }: { id: string, alpha: boolean, width: number, height: number }) {
+  constructor({
+    id,
+    alpha,
+    width,
+    height,
+  }: {
+    id: string;
+    alpha: boolean;
+    width: number;
+    height: number;
+  }) {
     const canvasElement = document.getElementById(id) as HTMLCanvasElement;
     this.#ctx = canvasElement.getContext("2d", { alpha })!;
     scale(canvasElement, width / 2, height / 2, 2);
   }
 
   drawSquare(x: number, y: number, w: number, h: number) {
-    this.#ctx.fillRect(x, y, w, h)
+    this.#ctx.fillRect(x, y, w, h);
   }
 }
 

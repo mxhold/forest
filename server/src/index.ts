@@ -2,7 +2,6 @@ import express, { Response } from "express";
 import { join } from "path";
 import { createServer } from "http";
 
-
 const app = express();
 
 const setHeaders = (response: Response<any>) => {
