@@ -3,9 +3,6 @@ require 'io/console'
 
 SERVER_PID_FILE = "tmp/server.pid"
 
-class Failure < RuntimeError
-end
-
 def say(dir, script, statement)
   puts "[#{dir}] #{script}: #{statement}"
 end
@@ -17,7 +14,7 @@ def npm_run(dir, script)
       say(dir, script, "done.")
     else
       say(dir, script, "failed.")
-      fail Failure.new
+      throw :halt
     end
   end
 end
@@ -43,13 +40,10 @@ end
 def kill_server
   return unless File.exists?(SERVER_PID_FILE)
   server_pid = File.read(SERVER_PID_FILE)
-  if server_pid
-    Process.kill("TERM", server_pid.to_i)
-    File.delete(SERVER_PID_FILE)
-  end
-rescue Errno::ESRCH
-  # Remove stale pid file
+  return unless server_pid
   File.delete(SERVER_PID_FILE)
+  Process.kill("TERM", server_pid.to_i)
+rescue Errno::ESRCH
 end
 
 def server
@@ -91,7 +85,6 @@ def handle(key)
   else
     help
   end
-rescue Failure
 end
 
 help
@@ -100,5 +93,7 @@ loop do
   putc ">"
   key = STDIN.getch(min: nil, time: nil, intr: true)
   puts key
-  handle(key)
+  catch(:halt) do
+    handle(key)
+  end
 end
