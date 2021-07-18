@@ -70,7 +70,7 @@ def handle(key)
     fix_formatting
     client
     server
-  when "q", "\C-c", "\C-d", "\C-z"
+  when "q"
     quit
   else
     help
@@ -80,8 +80,8 @@ end
 help
 
 loop do
-  putc ">"
-  key = STDIN.getch(min: nil, time: nil, intr: true)
+  print "> "
+  key = STDIN.getch
   puts key
   catch(:halt) do
     handle(key)
