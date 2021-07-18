@@ -1,39 +1,43 @@
 #!/usr/bin/env ruby
-
 require 'io/console'
 
 SERVER_PID_FILE = "tmp/server.pid"
 
-def check
-  puts "Running checks..."
-  Dir.chdir("client") do
-    unless system("npm run check")
-      abort "Client check failed."
-    end
-  end
-
-  Dir.chdir("server") do
-    unless system("npm run check")
-      abort "Server check failed."
-    end
-  end
-  puts "Checks succeeded."
+class Failure < RuntimeError
 end
 
-def build
-  puts "Building..."
-  Dir.chdir("client") do
-    unless system("npm run build")
-      abort "Client build failed."
-    end
-  end
+def say(dir, script, statement)
+  puts "[#{dir}] #{script}: #{statement}"
+end
 
-  Dir.chdir("server") do
-    unless system("npm run build")
-      abort "Server build failed."
+def npm_run(dir, script)
+  say(dir, script, "starting...")
+  Dir.chdir(dir) do
+    if system("npm run #{script}")
+      say(dir, script, "done.")
+    else
+      say(dir, script, "failed.")
+      fail Failure.new
     end
   end
-  puts "Builds succeeded."
+end
+
+def fix_formatting
+  puts "format: starting..."
+  system("npm run format")
+  case $?
+  when 0
+    puts "format: ok."
+  when 1
+    puts "format: fixed."
+  else
+    puts "format: error."
+  end
+end
+
+def client
+  npm_run("client", "check")
+  npm_run("client", "build")
 end
 
 def kill_server
@@ -43,36 +47,51 @@ def kill_server
     Process.kill("TERM", server_pid.to_i)
     File.delete(SERVER_PID_FILE)
   end
-
 rescue Errno::ESRCH
   # Remove stale pid file
   File.delete(SERVER_PID_FILE)
 end
 
-def start
-  puts "Starting..."
+def server
+  npm_run("server", "check")
+  npm_run("server", "build")
   kill_server
-
-  Dir.chdir("server") do
-    system("npm run start")
-  end
-end
-
-def refresh
-  check
-  build
-  start
+  npm_run("server", "start")
 end
 
 def quit
-  puts "Quitting..."
   kill_server
   Process.kill("TERM", 0)
   exit
 end
 
 def help
-  puts "Commands: (c)heck, (b)uild, (s)tart, (r)efresh, (q)uit"
+  puts "Commands:"
+  puts "  f: fix formatting"
+  puts "  c: build client"
+  puts "  s: build & (re)start server"
+  puts "  a: all"
+  puts "  q: quit"
+end
+
+def handle(key)
+  case key
+  when "f"
+    fix_formatting
+  when "c"
+    client
+  when "s"
+    server
+  when "a"
+    fix_formatting
+    client
+    server
+  when "q", "\C-c", "\C-d", "\C-z"
+    quit
+  else
+    help
+  end
+rescue Failure
 end
 
 help
@@ -81,19 +100,5 @@ loop do
   putc ">"
   key = STDIN.getch(min: nil, time: nil, intr: true)
   puts key
-
-  case key
-  when "c"
-    check
-  when "b"
-    build
-  when "s"
-    start
-  when "r"
-    refresh
-  when "q", "\C-c", "\C-d", "\C-z", "\e"
-    quit
-  else
-    help
-  end
+  handle(key)
 end
