@@ -47,7 +47,6 @@ end
 def quit
   kill_server
   Process.kill("TERM", 0)
-  exit
 end
 
 def help
