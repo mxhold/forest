@@ -20,16 +20,7 @@ def npm_run(dir, script)
 end
 
 def fix_formatting
-  puts "format: starting..."
-  system("npm run format")
-  case $?
-  when 0
-    puts "format: ok."
-  when 1
-    puts "format: fixed."
-  else
-    puts "format: error."
-  end
+  npm_run(".", "format")
 end
 
 def client
