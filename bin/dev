@@ -3,6 +3,15 @@ require 'io/console'
 
 SERVER_PID_FILE = "tmp/server.pid"
 
+def kill_server
+  return unless File.exists?(SERVER_PID_FILE)
+  server_pid = File.read(SERVER_PID_FILE)
+  return unless server_pid
+  File.delete(SERVER_PID_FILE)
+  Process.kill("TERM", server_pid.to_i)
+rescue Errno::ESRCH
+end
+
 def say(dir, script, statement)
   puts "[#{dir}] #{script}: #{statement}"
 end
@@ -26,15 +35,6 @@ end
 def client
   npm_run("client", "check")
   npm_run("client", "build")
-end
-
-def kill_server
-  return unless File.exists?(SERVER_PID_FILE)
-  server_pid = File.read(SERVER_PID_FILE)
-  return unless server_pid
-  File.delete(SERVER_PID_FILE)
-  Process.kill("TERM", server_pid.to_i)
-rescue Errno::ESRCH
 end
 
 def server
