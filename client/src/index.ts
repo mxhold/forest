@@ -1,5 +1,4 @@
-import { CANVAS_SIZE } from "../../config/canvas";
-import { Canvas } from "./models/canvas";
+import { App } from "./engine";
+import drawRectangle from "./systems/drawRectangle";
 
-const canvas = new Canvas({ id: "canvas", alpha: true, ...CANVAS_SIZE });
-canvas.drawSquare(25, 5, 15, 50);
+App.build().addSystem(drawRectangle).run();
