@@ -1,7 +1,6 @@
-import { CANVAS_SIZE } from "../../../config/canvas";
-import { Canvas } from "../engine/models/Canvas";
+import { World } from "../engine";
 
-export default function drawRectangle() {
-  const canvas = new Canvas({ id: "canvas", alpha: true, ...CANVAS_SIZE });
+export default function drawRectangle(world: World) {
+  const canvas = world.getResource("canvas");
   canvas.drawSquare(25, 5, 15, 50);
 }

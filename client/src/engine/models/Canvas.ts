@@ -1,4 +1,4 @@
-export class Canvas {
+export default class Canvas {
   #ctx: CanvasRenderingContext2D;
 
   constructor({
@@ -19,6 +19,12 @@ export class Canvas {
 
   drawSquare(x: number, y: number, w: number, h: number) {
     this.#ctx.fillRect(x, y, w, h);
+  }
+
+  drawCircle(x: number, y: number, w: number) {
+    this.#ctx.beginPath();
+    this.#ctx.arc(x, y, w, 0, 2 * Math.PI);
+    this.#ctx.fill();
   }
 }
 

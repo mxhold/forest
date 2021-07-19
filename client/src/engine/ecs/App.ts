@@ -1,10 +1,17 @@
-type System = () => void;
+import { World } from "..";
+
+type System = (world: World) => void;
 
 class AppBuilder {
   app: App;
 
   constructor() {
     this.app = new App();
+  }
+
+  addStartupSystem(system: System) {
+    this.app.startupSystems.push(system);
+    return this;
   }
 
   addSystem(system: System) {
@@ -19,14 +26,20 @@ class AppBuilder {
 
 export default class App {
   systems: System[] = [];
+  startupSystems: System[] = [];
+  world: World = new World();
 
   static build() {
     return new AppBuilder();
   }
 
   executeSystems() {
+    for (const system of this.startupSystems) {
+      system(this.world);
+    }
+
     for (const system of this.systems) {
-      system();
+      system(this.world);
     }
   }
 }
