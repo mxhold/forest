@@ -1,4 +1,4 @@
-import { World } from "../engine";
+import { World } from "../World";
 
 export default function drawRectangle(world: World) {
   const canvas = world.getResource("canvas");

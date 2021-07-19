@@ -1,20 +1,20 @@
 import { World } from "..";
 
-type System = (world: World) => void;
+type System<Resources> = (world: World<Resources>) => void;
 
-class AppBuilder {
-  app: App;
+class AppBuilder<Resources> {
+  app: App<Resources>;
 
   constructor() {
     this.app = new App();
   }
 
-  addStartupSystem(system: System) {
+  addStartupSystem(system: System<Resources>) {
     this.app.startupSystems.push(system);
     return this;
   }
 
-  addSystem(system: System) {
+  addSystem(system: System<Resources>) {
     this.app.systems.push(system);
     return this;
   }
@@ -24,13 +24,13 @@ class AppBuilder {
   }
 }
 
-export default class App {
-  systems: System[] = [];
-  startupSystems: System[] = [];
-  world: World = new World();
+export default class App<Resources> {
+  systems: System<Resources>[] = [];
+  startupSystems: System<Resources>[] = [];
+  world: World<Resources> = new World();
 
-  static build() {
-    return new AppBuilder();
+  static build<Resources>() {
+    return new AppBuilder<Resources>();
   }
 
   executeSystems() {
