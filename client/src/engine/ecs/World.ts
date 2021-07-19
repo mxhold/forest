@@ -1,25 +1,24 @@
 import { Canvas } from "..";
 
-export type FindByName<Union, Name> = Union extends { name: Name }
-  ? Union
-  : never;
+interface Resource {
+  canvas: Canvas;
+}
 
-type CanvasResource = { name: "canvas"; resource: Canvas };
-
-type Resource = CanvasResource;
+interface Resource {
+  turn: number;
+}
 
 export default class World {
-  resources: Map<Resource["name"], Resource["resource"]> = new Map();
+  resources: Map<keyof Resource, Resource[keyof Resource]> = new Map();
 
-  addResource(name: Resource["name"], resource: Resource["resource"]) {
+  addResource(name: keyof Resource, resource: Resource[keyof Resource]) {
     this.resources.set(name, resource);
   }
 
-  getResource<Name extends Resource["name"]>(name: Name): Resource["resource"] {
+  getResource<Name extends keyof Resource>(name: Name): Resource[Name] {
     if (!this.resources.has(name)) {
       throw new Error(`World: no resource with name ${name}`);
     }
-    const resource = this.resources.get(name) as FindByName<Resource["resource"], Name>;
-    return resource;
+    return this.resources.get(name) as Resource[Name];
   }
 }
