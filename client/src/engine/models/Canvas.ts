@@ -1,5 +1,7 @@
 export default class Canvas {
   #ctx: CanvasRenderingContext2D;
+  width: number;
+  height: number;
 
   constructor({
     id,
@@ -12,9 +14,15 @@ export default class Canvas {
     width: number;
     height: number;
   }) {
+    this.width = width;
+    this.height = height;
     const canvasElement = document.getElementById(id) as HTMLCanvasElement;
     this.#ctx = canvasElement.getContext("2d", { alpha })!;
     scale(canvasElement, width / 2, height / 2, 2);
+  }
+
+  clear() {
+    this.#ctx.clearRect(0, 0, this.width, this.height);
   }
 
   drawSquare(x: number, y: number, w: number, h: number) {

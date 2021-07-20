@@ -62,8 +62,8 @@ export default class App<Context> {
   run() {
     this.executeStartupSystems();
     App.startLoop((_frame) => {
-      this.executeSystems()
-    })
+      this.executeSystems();
+    });
   }
 
   executeStartupSystems() {

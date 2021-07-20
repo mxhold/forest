@@ -6,7 +6,6 @@ export const KEYBOARD = {
   delayMs: 150,
 };
 
-
 export const GAME = {
   framesPerSecond: 20,
-}
+};
