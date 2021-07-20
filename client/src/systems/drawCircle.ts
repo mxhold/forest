@@ -1,6 +1,5 @@
-import { World } from "../World";
+import Context from "../Context";
 
-export default function drawCircle(world: World) {
-  const canvas = world.getResource("canvas");
-  canvas.drawCircle(100, 200, 25);
+export default function drawCircle(ctx: Context) {
+  ctx.canvas.drawCircle(100, 200, 25);
 }

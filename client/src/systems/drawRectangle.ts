@@ -1,6 +1,5 @@
-import { World } from "../World";
+import Context from "../Context";
 
-export default function drawRectangle(world: World) {
-  const canvas = world.getResource("canvas");
-  canvas.drawSquare(25, 5, 15, 50);
+export default function drawRectangle(ctx: Context) {
+  ctx.canvas.drawSquare(25, 5, 15, 50);
 }

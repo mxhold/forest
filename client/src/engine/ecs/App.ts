@@ -1,20 +1,18 @@
-import { World } from "..";
+type System<Context> = (ctx: Context) => void;
 
-type System<Resources> = (world: World<Resources>) => void;
+class AppBuilder<Context> {
+  app: App<Context>;
 
-class AppBuilder<Resources> {
-  app: App<Resources>;
-
-  constructor() {
-    this.app = new App();
+  constructor(contextClass: { new (): Context }) {
+    this.app = new App(contextClass);
   }
 
-  addStartupSystem(system: System<Resources>) {
+  addStartupSystem(system: System<Context>) {
     this.app.startupSystems.push(system);
     return this;
   }
 
-  addSystem(system: System<Resources>) {
+  addSystem(system: System<Context>) {
     this.app.systems.push(system);
     return this;
   }
@@ -24,22 +22,26 @@ class AppBuilder<Resources> {
   }
 }
 
-export default class App<Resources> {
-  systems: System<Resources>[] = [];
-  startupSystems: System<Resources>[] = [];
-  world: World<Resources> = new World();
+export default class App<Context> {
+  systems: System<Context>[] = [];
+  startupSystems: System<Context>[] = [];
+  context: Context;
 
-  static build<Resources>() {
-    return new AppBuilder<Resources>();
+  static build<C>(contextClass: { new (): C }) {
+    return new AppBuilder(contextClass);
+  }
+
+  constructor(contextClass: { new (): Context }) {
+    this.context = new contextClass();
   }
 
   executeSystems() {
     for (const system of this.startupSystems) {
-      system(this.world);
+      system(this.context);
     }
 
     for (const system of this.systems) {
-      system(this.world);
+      system(this.context);
     }
   }
 }
