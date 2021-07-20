@@ -1,5 +1,6 @@
 import Context from "../Context";
 
 export default function drawRectangle(ctx: Context) {
-  ctx.canvas.drawSquare(25, 5, 15, 50);
+  const position = ctx.position;
+  ctx.canvas.drawSquare(position.x, position.y, 10, 10);
 }

@@ -1,3 +1,5 @@
+import { GAME } from "../../config";
+
 type System<Context> = (ctx: Context) => void;
 
 class AppBuilder<Context> {
@@ -18,7 +20,7 @@ class AppBuilder<Context> {
   }
 
   run() {
-    this.app.executeSystems();
+    this.app.run();
   }
 }
 
@@ -31,15 +33,46 @@ export default class App<Context> {
     return new AppBuilder(contextClass);
   }
 
+  static startLoop(cb: (frame: number) => void) {
+    const delay = 1000 / GAME.framesPerSecond;
+    let start: number;
+    let frame = 0;
+    const loop = (timestamp: number) => {
+      if (start === undefined) {
+        start = timestamp;
+      }
+      const elapsed = timestamp - start;
+      if (elapsed > delay) {
+        start = timestamp;
+
+        frame++;
+
+        cb(frame);
+      }
+
+      window.requestAnimationFrame(loop);
+    };
+    window.requestAnimationFrame(loop);
+  }
+
   constructor(contextClass: { new (): Context }) {
     this.context = new contextClass();
   }
 
-  executeSystems() {
+  run() {
+    this.executeStartupSystems();
+    App.startLoop((_frame) => {
+      this.executeSystems()
+    })
+  }
+
+  executeStartupSystems() {
     for (const system of this.startupSystems) {
       system(this.context);
     }
+  }
 
+  executeSystems() {
     for (const system of this.systems) {
       system(this.context);
     }

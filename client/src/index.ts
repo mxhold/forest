@@ -1,6 +1,9 @@
 import Context from "./Context";
 import { App } from "./engine";
-import drawCircle from "./systems/drawCircle";
-import drawRectangle from "./systems/drawRectangle";
+import { handleKeydown, drawRectangle, movement } from "./systems";
 
-App.build(Context).addSystem(drawRectangle).addSystem(drawCircle).run();
+App.build(Context)
+  .addStartupSystem(handleKeydown)
+  .addSystem(drawRectangle)
+  .addSystem(movement)
+  .run();
