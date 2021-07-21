@@ -1,5 +1,5 @@
-import drawRectangle from "./drawRectangle";
+import drawPlayer from "./drawPlayer";
 import handleKeydown from "./handleKeydown";
 import movement from "./movement";
 
-export { drawRectangle, handleKeydown, movement };
+export { drawPlayer, handleKeydown, movement };

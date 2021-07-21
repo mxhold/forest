@@ -33,7 +33,6 @@ def fix_formatting
 end
 
 def client
-  npm_run("client", "check")
   npm_run("client", "build")
 end
 
