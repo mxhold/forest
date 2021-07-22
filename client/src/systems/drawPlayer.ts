@@ -12,7 +12,12 @@ export default function drawPlayer(ctx: Context) {
     } else {
       stance = "stand";
     }
-    
-    ctx.canvas.drawSprite(ctx.sprites.player, ctx.position, ctx.direction, stance);
+
+    ctx.canvas.drawSprite(
+      ctx.sprites.player,
+      ctx.position,
+      ctx.direction,
+      stance
+    );
   }
 }

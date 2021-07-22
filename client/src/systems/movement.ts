@@ -35,6 +35,7 @@ export default function movement(ctx: Context) {
       ctx.walkStage = "step2";
     } else if (ctx.walkStage === "step2") {
       ctx.walkStage = "stop";
+      ctx.keydownEvents = [];
     }
     return;
   }
