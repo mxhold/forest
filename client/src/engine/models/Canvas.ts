@@ -39,7 +39,7 @@ export default class Canvas {
   }
 
   drawSprite(sprite: Sprite, position: Position, direction: Direction) {
-    const segment = sprite.segment(direction);
+    const segment = sprite.frame(direction, "stand");
     this.#ctx.drawImage(
       sprite.image,
       segment.sx,

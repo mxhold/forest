@@ -1,7 +1,7 @@
-import { Direction } from "../../types";
+import { Direction, Stance } from "../../types";
 
 const segments: Direction[] = ["up", "down", "right", "left"];
-const FRAMES_PER_SEGMENT = 3;
+const stances: Stance[] = ["walk1", "stand", "walk2"];
 
 export default class Sprite {
   width: number;
@@ -22,12 +22,14 @@ export default class Sprite {
     this.image = image;
   }
 
-  segment(direction: Direction) {
+  frame(direction: Direction, stance: Stance) {
     const segmentIndex = segments.indexOf(direction);
-    const xOffset = segmentIndex * (this.width * FRAMES_PER_SEGMENT);
+    const stanceIndex = stances.indexOf(stance);
+    const segmentOffset = segmentIndex * stances.length * this.width;
+    const stanceOffset = stanceIndex * this.width;
 
     return {
-      sx: xOffset + this.width,
+      sx: segmentOffset + stanceOffset,
       sy: 0,
       sWidth: this.width,
       sHeight: this.height,
