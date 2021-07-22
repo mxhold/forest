@@ -1,4 +1,5 @@
-import { Position } from "../../types";
+import { Direction, Position } from "../../types";
+import Sprite from "./Sprite";
 
 export default class Canvas {
   #ctx: CanvasRenderingContext2D;
@@ -37,8 +38,19 @@ export default class Canvas {
     this.#ctx.fill();
   }
 
-  renderSprite(image: CanvasImageSource, position: Position) {
-    this.#ctx.drawImage(image, position.x, position.y);
+  drawSprite(sprite: Sprite, position: Position, direction: Direction) {
+    const segment = sprite.segment(direction);
+    this.#ctx.drawImage(
+      sprite.image,
+      segment.sx,
+      segment.sy,
+      segment.sWidth,
+      segment.sHeight,
+      position.x,
+      position.y,
+      segment.sWidth,
+      segment.sHeight
+    );
   }
 
   inBounds(position: Position) {

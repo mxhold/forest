@@ -1,7 +1,7 @@
 import Context from "../Context";
-import { Movement, Position } from "../types";
+import { Direction, Position } from "../types";
 
-function mapKeyCode(code: string): Movement | undefined {
+function mapKeyCode(code: string): Direction | undefined {
   if (code === "ArrowRight") {
     return "right";
   } else if (code === "ArrowLeft") {
@@ -13,7 +13,7 @@ function mapKeyCode(code: string): Movement | undefined {
   }
 }
 
-function move(position: Position, movement: Movement) {
+function move(position: Position, movement: Direction) {
   if (movement === "right") {
     return { ...position, x: position.x + 10 };
   } else if (movement === "left") {
@@ -32,15 +32,16 @@ export default function movement(ctx: Context) {
     return;
   }
 
-  const movement = mapKeyCode(keyCode);
-  if (!movement) {
+  const direction = mapKeyCode(keyCode);
+  if (!direction) {
     return;
   }
 
-  const newPosition = move(ctx.position, movement);
+  const newPosition = move(ctx.position, direction);
   console.log(newPosition);
 
   if (ctx.canvas.inBounds(newPosition)) {
+    ctx.direction = direction;
     ctx.position = newPosition;
   }
 }
