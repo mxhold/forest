@@ -37,6 +37,12 @@ export default function movement(ctx: Context) {
     return;
   }
 
+  // Don't move if changing directions
+  if (direction !== ctx.direction) {
+    ctx.direction = direction;
+    return;
+  }
+
   const newPosition = move(ctx.position, direction);
   console.log(newPosition);
 
