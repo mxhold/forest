@@ -3,9 +3,9 @@ export const CANVAS = {
 };
 
 export const KEYBOARD = {
-  delayMs: 50,
+  delayMs: 100,
 };
 
 export const GAME = {
-  framesPerSecond: 20,
+  framesPerSecond: 15,
 };

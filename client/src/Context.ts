@@ -1,6 +1,6 @@
 import { CANVAS } from "./config";
 import { Canvas, Sprite } from "./engine";
-import { Direction, Position } from "./types";
+import { Direction, Position, Stance, WalkStage } from "./types";
 
 export default class Context {
   canvas: Canvas = new Canvas({ id: "canvas", alpha: true, ...CANVAS.size });
@@ -10,6 +10,7 @@ export default class Context {
   sprites: {
     player: Sprite | undefined;
   };
+  walkStage: WalkStage = "stop";
 
   constructor() {
     this.sprites = { player: undefined };

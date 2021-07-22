@@ -13,20 +13,32 @@ function mapKeyCode(code: string): Direction | undefined {
   }
 }
 
-function move(position: Position, movement: Direction) {
+function move(position: Position, movement: Direction, distance: number) {
   if (movement === "right") {
-    return { ...position, x: position.x + 10 };
+    return { ...position, x: position.x + distance };
   } else if (movement === "left") {
-    return { ...position, x: position.x - 10 };
+    return { ...position, x: position.x - distance };
   } else if (movement === "up") {
-    return { ...position, y: position.y - 10 };
+    return { ...position, y: position.y - distance };
   } else if (movement === "down") {
-    return { ...position, y: position.y + 10 };
+    return { ...position, y: position.y + distance };
   }
   throw new Error("unreachable");
 }
 
 export default function movement(ctx: Context) {
+  if (ctx.walkStage !== "stop") {
+    ctx.position = move(ctx.position, ctx.direction, 19 / 4);
+    if (ctx.walkStage === "step1") {
+      ctx.walkStage = "pause";
+    } else if (ctx.walkStage === "pause") {
+      ctx.walkStage = "step2";
+    } else if (ctx.walkStage === "step2") {
+      ctx.walkStage = "stop";
+    }
+    return;
+  }
+
   const keyCode = ctx.keydownEvents.shift();
   if (!keyCode) {
     return;
@@ -43,11 +55,12 @@ export default function movement(ctx: Context) {
     return;
   }
 
-  const newPosition = move(ctx.position, direction);
-  console.log(newPosition);
+  const newPosition = move(ctx.position, direction, 19 / 4);
 
+  // TODO: fix bounds checking
   if (ctx.canvas.inBounds(newPosition)) {
     ctx.direction = direction;
     ctx.position = newPosition;
+    ctx.walkStage = "step1";
   }
 }

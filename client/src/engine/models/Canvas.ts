@@ -1,4 +1,4 @@
-import { Direction, Position } from "../../types";
+import { Direction, Position, Stance } from "../../types";
 import Sprite from "./Sprite";
 
 export default class Canvas {
@@ -21,7 +21,7 @@ export default class Canvas {
     this.height = height / 2;
     const canvasElement = document.getElementById(id) as HTMLCanvasElement;
     this.#ctx = canvasElement.getContext("2d", { alpha })!;
-    scale(canvasElement, width / 2, height / 2, 1.5);
+    scale(canvasElement, width / 2, height / 2, 2);
   }
 
   clear() {
@@ -38,8 +38,8 @@ export default class Canvas {
     this.#ctx.fill();
   }
 
-  drawSprite(sprite: Sprite, position: Position, direction: Direction) {
-    const segment = sprite.frame(direction, "stand");
+  drawSprite(sprite: Sprite, position: Position, direction: Direction, stance: Stance) {
+    const segment = sprite.frame(direction, stance);
     this.#ctx.drawImage(
       sprite.image,
       segment.sx,
