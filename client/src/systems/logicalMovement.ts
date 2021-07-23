@@ -53,9 +53,7 @@ export default function logicalMovement(ctx: Context) {
     ctx.sprites.player.width
   );
 
-  // TODO: fix bounds checking
-  if (ctx.canvas.inBounds(newPosition)) {
-    console.log("move", newPosition, "walkstage", ctx.walkStage);
+  if (ctx.canvas.inBounds(newPosition, ctx.sprites.player)) {
     ctx.direction = direction;
     ctx.logicalPosition = newPosition;
     ctx.walkStage = "step1";
