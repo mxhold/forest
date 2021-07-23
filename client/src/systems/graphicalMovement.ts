@@ -41,8 +41,7 @@ function move(
 }
 
 function finishStageAtFrame(stage: WalkStage) {
-  const stageIndex = stages.indexOf(stage);
-  return stageIndex * framesPerStage;
+  return (stages.indexOf(stage) + 1) * framesPerStage;
 }
 
 function nextStage(stage: WalkStage): WalkStage {
