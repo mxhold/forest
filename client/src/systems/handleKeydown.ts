@@ -5,10 +5,12 @@ export default function handleKeydown(ctx: Context) {
   let lastPressAt = 0;
 
   document.addEventListener("keydown", (event) => {
-    if (performance.now() - lastPressAt < KEYBOARD.delayMs) {
-      return;
+    // if (performance.now() - lastPressAt < KEYBOARD.delayMs) {
+    //   return;
+    // }
+    // lastPressAt = performance.now();
+    if (ctx.walkStage === "stop") {
+      ctx.keydownEvents = [event.code];
     }
-    lastPressAt = performance.now();
-    ctx.keydownEvents.push(event.code);
   });
 }

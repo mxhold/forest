@@ -55,6 +55,7 @@ export default function logicalMovement(ctx: Context) {
 
   // TODO: fix bounds checking
   if (ctx.canvas.inBounds(newPosition)) {
+    console.log("move", newPosition, "walkstage", ctx.walkStage);
     ctx.direction = direction;
     ctx.logicalPosition = newPosition;
     ctx.walkStage = "step1";

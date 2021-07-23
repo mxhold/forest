@@ -64,7 +64,6 @@ export default function graphicalMovement(ctx: Context) {
 
   if (ctx.walkStage === "stop") {
     ctx.graphicalPosition = ctx.logicalPosition;
-    walkStartedAtFrame = null;
     return;
   }
 
@@ -74,6 +73,9 @@ export default function graphicalMovement(ctx: Context) {
 
   if (ctx.frame > finishStageAtFrame(ctx.walkStage) + walkStartedAtFrame) {
     ctx.walkStage = nextStage(ctx.walkStage);
+    if (ctx.walkStage === "stop") {
+      walkStartedAtFrame = null;
+    }
   }
 
   ctx.graphicalPosition = move(

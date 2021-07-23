@@ -3,7 +3,7 @@ export const CANVAS = {
 };
 
 export const KEYBOARD = {
-  delayMs: 200,
+  delayMs: 0,
 };
 
 export const GAME = {
