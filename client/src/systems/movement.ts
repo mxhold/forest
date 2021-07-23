@@ -26,10 +26,12 @@ function move(position: Position, movement: Direction, distance: number) {
   throw new Error("unreachable");
 }
 
+let walkStartedAtFrame: number;
+
 export default function movement(ctx: Context) {
   if (ctx.walkStage !== "stop") {
     ctx.position = move(ctx.position, ctx.direction, 19 / 4);
-    if (ctx.walkStage === "step1") {
+    if (ctx.walkStage === "step1" && ctx.frame > 10 + walkStartedAtFrame) {
       ctx.walkStage = "pause";
     } else if (ctx.walkStage === "pause") {
       ctx.walkStage = "step2";
@@ -63,5 +65,6 @@ export default function movement(ctx: Context) {
     ctx.direction = direction;
     ctx.position = newPosition;
     ctx.walkStage = "step1";
+    walkStartedAtFrame = ctx.frame;
   }
 }

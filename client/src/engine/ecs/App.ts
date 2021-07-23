@@ -33,10 +33,9 @@ export default class App<Context> {
     return new AppBuilder(contextClass);
   }
 
-  static startLoop(cb: (frame: number) => void) {
+  static startLoop(cb: () => void) {
     const delay = 1000 / GAME.framesPerSecond;
     let start: number;
-    let frame = 0;
     const loop = (timestamp: number) => {
       if (start === undefined) {
         start = timestamp;
@@ -45,9 +44,7 @@ export default class App<Context> {
       if (elapsed > delay) {
         start = timestamp;
 
-        frame++;
-
-        cb(frame);
+        cb();
       }
 
       window.requestAnimationFrame(loop);
@@ -61,7 +58,7 @@ export default class App<Context> {
 
   run() {
     this.executeStartupSystems();
-    App.startLoop((_frame) => {
+    App.startLoop(() => {
       this.executeSystems();
     });
   }

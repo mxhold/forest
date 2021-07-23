@@ -1,8 +1,9 @@
 import { CANVAS } from "./config";
 import { Canvas, Sprite } from "./engine";
-import { Direction, Position, Stance, WalkStage } from "./types";
+import { Direction, Position, WalkStage } from "./types";
 
 export default class Context {
+  frame: number = 1;
   canvas: Canvas = new Canvas({ id: "canvas", alpha: true, ...CANVAS.size });
   keydownEvents: KeyboardEvent["code"][] = [];
   position: Position = { x: 0, y: 0 };
