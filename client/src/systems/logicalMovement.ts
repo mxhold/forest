@@ -26,19 +26,8 @@ function move(position: Position, movement: Direction, distance: number) {
   throw new Error("unreachable");
 }
 
-let walkStartedAtFrame: number;
-
-export default function movement(ctx: Context) {
-  if (ctx.walkStage !== "stop") {
-    ctx.position = move(ctx.position, ctx.direction, 19 / 4);
-    if (ctx.walkStage === "step1" && ctx.frame > 10 + walkStartedAtFrame) {
-      ctx.walkStage = "pause";
-    } else if (ctx.walkStage === "pause") {
-      ctx.walkStage = "step2";
-    } else if (ctx.walkStage === "step2") {
-      ctx.walkStage = "stop";
-      ctx.keydownEvents = [];
-    }
+export default function logicalMovement(ctx: Context) {
+  if (!ctx.sprites.player) {
     return;
   }
 
@@ -58,13 +47,16 @@ export default function movement(ctx: Context) {
     return;
   }
 
-  const newPosition = move(ctx.position, direction, 19 / 4);
+  const newPosition = move(
+    ctx.logicalPosition,
+    direction,
+    ctx.sprites.player.width
+  );
 
   // TODO: fix bounds checking
   if (ctx.canvas.inBounds(newPosition)) {
     ctx.direction = direction;
-    ctx.position = newPosition;
+    ctx.logicalPosition = newPosition;
     ctx.walkStage = "step1";
-    walkStartedAtFrame = ctx.frame;
   }
 }

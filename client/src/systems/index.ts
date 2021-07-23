@@ -1,6 +1,13 @@
 import countFrames from "./countFrames";
 import drawPlayer from "./drawPlayer";
 import handleKeydown from "./handleKeydown";
-import movement from "./movement";
+import logicalMovement from "./logicalMovement";
+import graphicalMovement from "./graphicalMovement";
 
-export { drawPlayer, handleKeydown, movement, countFrames };
+export {
+  drawPlayer,
+  handleKeydown,
+  logicalMovement,
+  graphicalMovement,
+  countFrames,
+};

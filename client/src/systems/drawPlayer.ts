@@ -15,7 +15,7 @@ export default function drawPlayer(ctx: Context) {
 
     ctx.canvas.drawSprite(
       ctx.sprites.player,
-      ctx.position,
+      ctx.graphicalPosition,
       ctx.direction,
       stance
     );

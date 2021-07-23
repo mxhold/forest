@@ -6,7 +6,8 @@ export default class Context {
   frame: number = 1;
   canvas: Canvas = new Canvas({ id: "canvas", alpha: true, ...CANVAS.size });
   keydownEvents: KeyboardEvent["code"][] = [];
-  position: Position = { x: 0, y: 0 };
+  logicalPosition: Position = { x: 0, y: 0 };
+  graphicalPosition: Position = { x: 0, y: 0 };
   direction: Direction = "down";
   sprites: {
     player: Sprite | undefined;
