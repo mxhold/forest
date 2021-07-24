@@ -1,6 +1,7 @@
 import { MOVEMENT, msToFrames } from "../config";
 import Context from "../Context";
 import { Direction, Position, WalkStage } from "../types";
+import { move } from "../utils";
 
 const framesPerStage = msToFrames(MOVEMENT.stageDurationMs);
 
@@ -18,26 +19,6 @@ function offset(walkStage: WalkStage, width: number): number {
   } else {
     return 0;
   }
-}
-
-function move(
-  position: Position,
-  movement: Direction,
-  walkStage: WalkStage,
-  distance: number
-): Position {
-  const stageOffset = offset(walkStage, distance);
-
-  if (movement === "right") {
-    return { ...position, x: position.x + stageOffset };
-  } else if (movement === "left") {
-    return { ...position, x: position.x - stageOffset };
-  } else if (movement === "up") {
-    return { ...position, y: position.y - stageOffset };
-  } else if (movement === "down") {
-    return { ...position, y: position.y + stageOffset };
-  }
-  throw new Error("unreachable");
 }
 
 function finishStageAtFrame(stage: WalkStage) {
@@ -78,10 +59,7 @@ export default function graphicalMovement(ctx: Context) {
     }
   }
 
-  ctx.graphicalPosition = move(
-    ctx.logicalPosition,
-    ctx.direction,
-    ctx.walkStage,
-    ctx.sprites.player.width
-  );
+  const stageOffset = offset(ctx.walkStage, ctx.sprites.player.width);
+
+  ctx.graphicalPosition = move(ctx.logicalPosition, ctx.direction, stageOffset);
 }

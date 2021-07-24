@@ -1,5 +1,6 @@
 import Context from "../Context";
 import { Direction, Position } from "../types";
+import { move } from "../utils";
 
 function mapKeyCode(code: string): Direction | undefined {
   if (code === "ArrowRight") {
@@ -11,19 +12,6 @@ function mapKeyCode(code: string): Direction | undefined {
   } else if (code === "ArrowDown") {
     return "down";
   }
-}
-
-function move(position: Position, movement: Direction, distance: number) {
-  if (movement === "right") {
-    return { ...position, x: position.x + distance };
-  } else if (movement === "left") {
-    return { ...position, x: position.x - distance };
-  } else if (movement === "up") {
-    return { ...position, y: position.y - distance };
-  } else if (movement === "down") {
-    return { ...position, y: position.y + distance };
-  }
-  throw new Error("unreachable");
 }
 
 export default function logicalMovement(ctx: Context) {
