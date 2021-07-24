@@ -38,7 +38,7 @@ function nextStage(stage: WalkStage): WalkStage {
 
 let walkStartedAtFrame: null | number = null;
 
-export default function graphicalMovement(ctx: Context) {
+export default function walkAnimation(ctx: Context) {
   if (!ctx.sprites.player) {
     return;
   }

@@ -14,7 +14,7 @@ function mapKeyCode(code: string): Direction | undefined {
   }
 }
 
-export default function logicalMovement(ctx: Context) {
+export default function movement(ctx: Context) {
   if (!ctx.sprites.player) {
     return;
   }

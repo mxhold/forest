@@ -3,15 +3,15 @@ import { App } from "./engine";
 import {
   handleKeydown,
   drawPlayer,
-  logicalMovement,
-  graphicalMovement,
+  movement,
+  walkAnimation,
   countFrames,
 } from "./systems";
 
 App.build(Context)
   .addStartupSystem(handleKeydown)
   .addSystem(drawPlayer)
-  .addSystem(logicalMovement)
-  .addSystem(graphicalMovement)
+  .addSystem(movement)
+  .addSystem(walkAnimation)
   .addSystem(countFrames)
   .run();
