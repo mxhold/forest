@@ -1,3 +1,4 @@
+import { GAME } from "./config";
 import { Position, Direction } from "./types";
 
 export function move(
@@ -16,3 +17,8 @@ export function move(
   }
   throw new Error("unreachable");
 }
+
+export const msToFrames = (ms: number) => {
+  const msPerFrame = (1 / GAME.framesPerSecond) * 1000;
+  return ms / msPerFrame;
+};

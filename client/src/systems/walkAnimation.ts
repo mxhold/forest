@@ -1,7 +1,7 @@
-import { MOVEMENT, msToFrames } from "../config";
+import { MOVEMENT } from "../config";
 import Context from "../Context";
-import { Direction, Position, WalkStage } from "../types";
-import { move } from "../utils";
+import { WalkStage } from "../types";
+import { move, msToFrames } from "../utils";
 
 const framesPerStage = msToFrames(MOVEMENT.stageDurationMs);
 
