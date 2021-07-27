@@ -1,5 +1,5 @@
 export const CANVAS = {
-  size: { width: 800, height: 640 },
+  size: { width: 800, height: 600 },
 };
 
 export const GAME = {

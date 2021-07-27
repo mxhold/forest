@@ -17,11 +17,11 @@ export default class Canvas {
     width: number;
     height: number;
   }) {
-    this.width = width / 2;
-    this.height = height / 2;
+    this.width = width;
+    this.height = height;
     const canvasElement = document.getElementById(id) as HTMLCanvasElement;
     this.#ctx = canvasElement.getContext("2d", { alpha })!;
-    scale(canvasElement, width / 2, height / 2, 2);
+    scale(canvasElement, width, height);
   }
 
   clear() {
@@ -68,23 +68,18 @@ export default class Canvas {
   }
 }
 
-const scale = (
-  canvas: HTMLCanvasElement,
-  width: number,
-  height: number,
-  scale: number
-) => {
-  const pixelRatio = window.devicePixelRatio || 1;
+const scale = (canvas: HTMLCanvasElement, width: number, height: number) => {
+  const scale = window.devicePixelRatio;
 
-  canvas.width = scale * width * pixelRatio;
-  canvas.height = scale * height * pixelRatio;
+  canvas.style.width = width + "px";
+  canvas.style.height = height + "px";
 
-  canvas.style.width = `${scale * width}px`;
-  canvas.style.height = `${scale * height}px`;
+  canvas.width = Math.floor(scale * width);
+  canvas.height = Math.floor(scale * height);
 
   const ctx = canvas.getContext("2d")!;
 
   ctx.imageSmoothingEnabled = false;
 
-  ctx.scale(scale * pixelRatio, scale * pixelRatio);
+  ctx.scale(scale, scale);
 };

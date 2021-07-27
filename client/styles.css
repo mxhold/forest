@@ -1,7 +1,13 @@
 body {
   background-color: #6b705c;
+  margin: 0;
+  overflow: hidden;
 }
 
 canvas {
   background-color: #b7b7a4;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
