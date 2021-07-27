@@ -69,17 +69,15 @@ export default class Canvas {
 }
 
 const scale = (canvas: HTMLCanvasElement, width: number, height: number) => {
-  const scale = window.devicePixelRatio;
+  const scale = 2;
 
-  canvas.style.width = width + "px";
-  canvas.style.height = height + "px";
+  canvas.style.width = width * scale + "px";
+  canvas.style.height = height * scale + "px";
 
-  canvas.width = Math.floor(scale * width);
-  canvas.height = Math.floor(scale * height);
+  canvas.width = width;
+  canvas.height = height;
 
   const ctx = canvas.getContext("2d")!;
 
   ctx.imageSmoothingEnabled = false;
-
-  ctx.scale(scale, scale);
 };
