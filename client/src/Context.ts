@@ -1,6 +1,6 @@
 import { CANVAS } from "./config";
 import { Canvas, Sprite } from "./engine";
-import { Direction, Position, WalkStage } from "./types";
+import { Direction, Position, WalkStage, AttackStage } from "./types";
 
 export default class Context {
   frame: number = 1;
@@ -13,11 +13,12 @@ export default class Context {
     player: Sprite | undefined;
   };
   walkStage: WalkStage = "stop";
+  attackStage: AttackStage = "done";
 
   constructor() {
     this.sprites = { player: undefined };
     const image = new Image();
-    image.src = "assets/player2.png";
+    image.src = "assets/player-with-attack.png";
     image.onload = () => {
       this.sprites.player = new Sprite({
         image,

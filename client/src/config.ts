@@ -9,3 +9,7 @@ export const GAME = {
 export const MOVEMENT = {
   stageDurationMs: 50,
 };
+
+export const ATTACK = {
+  stageDurationMs: 50,
+};

@@ -9,6 +9,12 @@ export default function drawPlayer(ctx: Context) {
       stance = "walk1";
     } else if (ctx.walkStage === "step2") {
       stance = "walk2";
+    } else if (ctx.attackStage === "attack1") {
+      stance = "attack1";
+    } else if (ctx.attackStage === "attack2") {
+      stance = "attack2";
+    } else if (ctx.attackStage === "attack3") {
+      stance = "attack3";
     } else {
       stance = "stand";
     }

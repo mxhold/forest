@@ -6,6 +6,7 @@ import {
   movement,
   walkAnimation,
   countFrames,
+  attack,
 } from "./systems";
 
 App.build(Context)
@@ -13,5 +14,6 @@ App.build(Context)
   .addSystem(drawPlayer)
   .addSystem(movement)
   .addSystem(walkAnimation)
+  .addSystem(attack)
   .addSystem(countFrames)
   .run();
