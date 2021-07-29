@@ -8,7 +8,15 @@ const framesPerStage = msToFrames(ATTACK.stageDurationMs);
 const stages = ["attack1", "attack2", "attack3"];
 
 function finishStageAtFrame(stage: AttackStage) {
-  return (stages.indexOf(stage) + 1) * framesPerStage;
+  let duration = framesPerStage;
+  if (stage === "attack1") {
+    duration = msToFrames(75)
+  } else if (stage === "attack2") {
+    duration = msToFrames(25);
+  } else {
+    duration = msToFrames(75);
+  }
+  return (stages.indexOf(stage) + 1) * duration;
 }
 
 function nextStage(stage: AttackStage): AttackStage {

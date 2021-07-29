@@ -36,8 +36,6 @@ export default class Sprite {
     const directionOffset = directionIndex * stances.length * this.width;
     const stanceOffset = stanceIndex * this.width;
 
-    // debugger;
-
     return {
       sx: directionOffset + stanceOffset,
       sy: 0,
