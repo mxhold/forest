@@ -1,6 +1,8 @@
-import { CANVAS } from "./config";
+import { CANVAS, SPRITES } from "./config";
 import { Canvas, Sprite } from "./engine";
 import { Direction, Position, WalkStage, AttackStage } from "./types";
+
+type SpriteName = keyof typeof SPRITES;
 
 export default class Context {
   frame: number = 1;
@@ -8,23 +10,17 @@ export default class Context {
   keydownEvents: KeyboardEvent["code"][] = [];
   logicalPosition: Position = { x: 0, y: 0 };
   graphicalPosition: Position = { x: 0, y: 0 };
-  direction: Direction = "down";
-  sprites: {
-    player: Sprite | undefined;
-  };
+  direction: Direction = "s";
+  sprites!: Record<SpriteName, Sprite>;
   walkStage: WalkStage = "stop";
   attackStage: AttackStage = "done";
 
-  constructor() {
-    this.sprites = { player: undefined };
-    const image = new Image();
-    image.src = "assets/player-with-attack.png";
-    image.onload = () => {
-      this.sprites.player = new Sprite({
-        image,
-        width: 19,
-        height: 38,
-      });
-    };
+  async load() {
+    const sprites: Partial<Record<SpriteName, Sprite>> = {};
+    const spriteNames = Object.keys(SPRITES) as Array<SpriteName>;
+    for (const spriteName of spriteNames) {
+      sprites[spriteName] = await Sprite.load(SPRITES[spriteName]);
+    }
+    this.sprites = sprites as Record<SpriteName, Sprite>;
   }
 }

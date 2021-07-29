@@ -10,7 +10,7 @@ const stages = ["attack1", "attack2", "attack3"];
 function finishStageAtFrame(stage: AttackStage) {
   let duration = framesPerStage;
   if (stage === "attack1") {
-    duration = msToFrames(75)
+    duration = msToFrames(75);
   } else if (stage === "attack2") {
     duration = msToFrames(25);
   } else {
@@ -33,10 +33,6 @@ function nextStage(stage: AttackStage): AttackStage {
 let animationStartedAtFrame: null | number = null;
 
 export default function attack(ctx: Context) {
-  if (!ctx.sprites.player) {
-    return;
-  }
-
   if (ctx.attackStage === "done") {
     return;
   }

@@ -1,8 +1,16 @@
 import { GAME } from "../../config";
 
+interface IContext {
+  load(): Promise<void>;
+}
+
+type ContextClass<Context extends IContext> = {
+  new (): Context;
+};
+
 type System<Context> = (ctx: Context) => void;
 
-class AppBuilder<Context> {
+class AppBuilder<Context extends IContext> {
   app: App<Context>;
 
   constructor(contextClass: { new (): Context }) {
@@ -24,12 +32,12 @@ class AppBuilder<Context> {
   }
 }
 
-export default class App<Context> {
+export default class App<Context extends IContext> {
   systems: System<Context>[] = [];
   startupSystems: System<Context>[] = [];
   context: Context;
 
-  static build<C>(contextClass: { new (): C }) {
+  static build<C extends IContext>(contextClass: ContextClass<C>) {
     return new AppBuilder(contextClass);
   }
 
@@ -52,11 +60,12 @@ export default class App<Context> {
     window.requestAnimationFrame(loop);
   }
 
-  constructor(contextClass: { new (): Context }) {
+  constructor(contextClass: ContextClass<Context>) {
     this.context = new contextClass();
   }
 
-  run() {
+  async run() {
+    await this.context.load();
     this.executeStartupSystems();
     App.startLoop(() => {
       this.executeSystems();

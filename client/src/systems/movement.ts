@@ -1,24 +1,20 @@
 import Context from "../Context";
-import { Direction, Position } from "../types";
+import { Direction } from "../types";
 import { move } from "../utils";
 
 function mapKeyCode(code: string): Direction | undefined {
   if (code === "ArrowRight") {
-    return "right";
+    return "e";
   } else if (code === "ArrowLeft") {
-    return "left";
+    return "w";
   } else if (code === "ArrowUp") {
-    return "up";
+    return "n";
   } else if (code === "ArrowDown") {
-    return "down";
+    return "s";
   }
 }
 
 export default function movement(ctx: Context) {
-  if (!ctx.sprites.player) {
-    return;
-  }
-
   const keyCode = ctx.keydownEvents.shift();
   if (!keyCode) {
     return;

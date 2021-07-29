@@ -1,4 +1,4 @@
-import { Direction, Position, Stance } from "../../types";
+import { Direction, Position, SpriteFrame } from "../../types";
 import Sprite from "./Sprite";
 
 export default class Canvas {
@@ -42,9 +42,9 @@ export default class Canvas {
     sprite: Sprite,
     position: Position,
     direction: Direction,
-    stance: Stance
+    spriteFrame: SpriteFrame
   ) {
-    const segment = sprite.frame(direction, stance);
+    const segment = sprite.frame(direction, spriteFrame);
     this.#ctx.drawImage(
       sprite.image,
       segment.sx,

@@ -1,43 +1,57 @@
-import { Direction, Stance } from "../../types";
+import { Direction, Size, SpriteFrame } from "../../types";
+import { loadImage } from "../../utils";
 
-const directions: Direction[] = ["up", "down", "right", "left"];
-const stances: Stance[] = [
-  "walk1",
-  "stand",
-  "walk2",
-  "attack1",
-  "attack2",
-  "attack3",
-];
+export type SpriteConfig = {
+  image: string;
+  size: Size;
+  frames: string[];
+};
 
 export default class Sprite {
   width: number;
   height: number;
   image: CanvasImageSource;
+  frames: string[];
 
   constructor({
     width,
     height,
     image,
+    frames,
   }: {
     width: number;
     height: number;
     image: CanvasImageSource;
+    frames: string[];
   }) {
     this.width = width;
     this.height = height;
     this.image = image;
+    this.frames = frames;
   }
 
-  frame(direction: Direction, stance: Stance) {
-    const directionIndex = directions.indexOf(direction);
-    const stanceIndex = stances.indexOf(stance);
+  static async load({
+    size: { width, height },
+    image,
+    frames,
+  }: SpriteConfig): Promise<Sprite> {
+    return new Sprite({
+      image: await loadImage(image),
+      width,
+      height,
+      frames,
+    });
+  }
 
-    const directionOffset = directionIndex * stances.length * this.width;
-    const stanceOffset = stanceIndex * this.width;
+  frame(direction: Direction, spriteFrame: SpriteFrame) {
+    const frame = `${direction}_${spriteFrame}`;
+    let frameIndex = this.frames.indexOf(frame);
+    if (frameIndex === -1) {
+      frameIndex = 0;
+    }
 
     return {
-      sx: directionOffset + stanceOffset,
+      sx: frameIndex * this.width,
       sy: 0,
       sWidth: this.width,
       sHeight: this.height,
