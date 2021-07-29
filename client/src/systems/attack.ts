@@ -2,6 +2,7 @@ import { ATTACK } from "../config";
 import Context from "../Context";
 import { AttackStage } from "../types";
 import { msToFrames } from "../utils";
+import { shiftKeydownEvents } from "./handleKeydown";
 
 const framesPerStage = msToFrames(ATTACK.stageDurationMs);
 
@@ -30,9 +31,18 @@ function nextStage(stage: AttackStage): AttackStage {
   throw new Error("unreachable");
 }
 
+const FOLLOWED_KEYS = new Set<KeyboardEvent["code"]>(["Space"]);
+
 let animationStartedAtFrame: null | number = null;
 
 export default function attack(ctx: Context) {
+  const keyCode = shiftKeydownEvents(ctx, FOLLOWED_KEYS);
+
+  if (keyCode === "Space" && ctx.attackStage === "done") {
+    ctx.attackStage = "attack1";
+    return;
+  }
+
   if (ctx.attackStage === "done") {
     return;
   }

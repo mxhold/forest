@@ -11,7 +11,7 @@ export default class Context {
   logicalPosition: Position = { x: 0, y: 0 };
   graphicalPosition: Position = { x: 0, y: 0 };
   direction: Direction = "s";
-  sprites!: Record<SpriteName, Sprite>;
+  sprites?: Record<SpriteName, Sprite>;
   walkStage: WalkStage = "stop";
   attackStage: AttackStage = "done";
 

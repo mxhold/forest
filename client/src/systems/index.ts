@@ -2,13 +2,13 @@ import attack from "./attack";
 import countFrames from "./countFrames";
 import drawPlayer from "./drawPlayer";
 import handleKeydown from "./handleKeydown";
-import movement from "./movement";
+import keyboardMovement from "./keyboardMovement";
 import walkAnimation from "./walkAnimation";
 
 export {
   drawPlayer,
   handleKeydown,
-  movement,
+  keyboardMovement,
   walkAnimation,
   countFrames,
   attack,

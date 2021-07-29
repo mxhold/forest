@@ -2,6 +2,10 @@ import Context from "../Context";
 import { SpriteFrame } from "../types";
 
 export default function drawPlayer(ctx: Context) {
+  if (!ctx.sprites) {
+    return;
+  }
+
   ctx.canvas.clear();
   let frame: SpriteFrame;
   if (ctx.walkStage === "step1") {

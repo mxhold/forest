@@ -3,7 +3,7 @@ import { App } from "./engine";
 import {
   handleKeydown,
   drawPlayer,
-  movement,
+  keyboardMovement,
   walkAnimation,
   countFrames,
   attack,
@@ -12,7 +12,7 @@ import {
 App.build(Context)
   .addStartupSystem(handleKeydown)
   .addSystem(drawPlayer)
-  .addSystem(movement)
+  .addSystem(keyboardMovement)
   .addSystem(walkAnimation)
   .addSystem(attack)
   .addSystem(countFrames)
