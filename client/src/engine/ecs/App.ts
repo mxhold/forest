@@ -65,7 +65,11 @@ export default class App<Context extends IContext> {
   }
 
   async run() {
-    await this.context.load();
+    try {
+      await this.context.load();
+    } catch (e) {
+      console.error("Context loading error:", e)
+    }
     this.executeStartupSystems();
     App.startLoop(() => {
       this.executeSystems();

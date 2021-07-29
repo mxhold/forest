@@ -16,10 +16,6 @@ export const ATTACK = {
   stageDurationMs: 50,
 };
 
-type SpriteMap = {
-  [key: string]: SpriteConfig;
-};
-
 const player: SpriteConfig = {
   image: "assets/player.png",
   size: { width: 19, height: 38 },
