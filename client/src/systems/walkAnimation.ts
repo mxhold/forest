@@ -39,6 +39,10 @@ function nextStage(stage: WalkStage): WalkStage {
 let walkStartedAtFrame: null | number = null;
 
 export default function walkAnimation(ctx: Context) {
+  if (!ctx.sprites) {
+    return;
+  }
+
   if (ctx.walkStage === "stop") {
     ctx.graphicalPosition = ctx.logicalPosition;
     return;
