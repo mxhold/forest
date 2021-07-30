@@ -57,7 +57,6 @@ export default function movement(ctx: Context) {
     );
 
     if (ctx.canvas.inBounds(newPosition, ctx.sprites.player)) {
-      entity.set("orientation", direction);
       entity.set("position", newPosition);
       entity.set("walkStage", "step1");
     }
