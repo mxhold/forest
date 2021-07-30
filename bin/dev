@@ -34,6 +34,7 @@ end
 
 def client
   npm_run("client", "build")
+  npm_run("client", "check")
 end
 
 def server

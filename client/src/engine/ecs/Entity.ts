@@ -18,11 +18,8 @@ class Entity<Component extends IComponent> {
   }
 
   has(tag: Component["tag"], ...otherTags: Component["tag"][]): boolean {
-    if (otherTags) {
-      const tags = [tag, ...otherTags];
-      return tags.filter((t) => this.components.has(t)).length === tags.length;
-    }
-    return this.components.has(tag);
+    const tags = [tag, ...otherTags];
+    return tags.filter((t) => this.components.has(t)).length === tags.length;
   }
 
   get<Tag extends Component["tag"]>(
@@ -46,10 +43,6 @@ export class EntityCollection<Component extends IComponent> {
   }
 
   find(tag: Component["tag"], ...tags: Component["tag"][]) {
-    if (tags) {
-      return this.entities.filter((e) => e.has(tag, ...tags));
-    } else {
-      return this.entities.filter((e) => e.has(tag));
-    }
+    return this.entities.filter((e) => e.has(tag, ...tags));
   }
 }
