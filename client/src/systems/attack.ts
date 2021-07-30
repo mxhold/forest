@@ -38,11 +38,7 @@ let animationStartedAtFrame: null | number = null;
 export default function attack(ctx: Context) {
   const keyCode = shiftKeydownEvents(ctx, FOLLOWED_KEYS);
 
-  const entities = ctx.entities.find(
-    "orientation",
-    "walkStage",
-    "keyboardControlled"
-  );
+  const entities = ctx.entities.find("attackStage");
   if (entities.length < 1) {
     return;
   }

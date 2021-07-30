@@ -17,8 +17,7 @@ class Entity<Component extends IComponent> {
     return this;
   }
 
-  has(tag: Component["tag"], ...otherTags: Component["tag"][]): boolean {
-    const tags = [tag, ...otherTags];
+  has(...tags: Component["tag"][]): boolean {
     return tags.filter((t) => this.components.has(t)).length === tags.length;
   }
 
@@ -42,7 +41,31 @@ export class EntityCollection<Component extends IComponent> {
     return entity;
   }
 
-  find(tag: Component["tag"], ...tags: Component["tag"][]) {
-    return this.entities.filter((e) => e.has(tag, ...tags));
+  find<Tag extends Component["tag"]>(
+    ...tags: Tag[]
+  ): Entity<FindByTag<Component, Tag>>[] {
+    return this.entities.filter((e) => e.has(...tags)) as Entity<
+      FindByTag<Component, Tag>
+    >[];
   }
 }
+
+// type TComponent =
+//   | {
+//       tag: "str";
+//       str: string;
+//     }
+//   | {
+//       tag: "num";
+//       num: number;
+//     }
+//   | {
+//       tag: "obj";
+//       obj: object;
+//     };
+
+// const entities = new EntityCollection<TComponent>();
+// const ets = entities.find("obj", "str")[0];
+// ets.get("str").str;
+// ets.get("num").num;
+// ets.get("obj").obj;

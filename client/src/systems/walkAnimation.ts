@@ -43,7 +43,7 @@ export default function walkAnimation(ctx: Context) {
     return;
   }
 
-  const entities = ctx.entities.find("orientation", "walkStage");
+  const entities = ctx.entities.find("orientation", "walkStage", "position");
   if (entities.length < 1) {
     return;
   }
