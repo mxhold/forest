@@ -8,7 +8,7 @@ export class UnloadedContext {
   entities: EntityCollection<Component> = new EntityCollection();
   frame: number = 1;
   canvas: Canvas = new Canvas({ id: "canvas", alpha: true, ...CANVAS.size });
-  keydownEvents: KeyboardEvent["code"][] = [];
+  pendingKeydown: KeyboardEvent["code"] | null = null;
 
   async load(): Promise<LoadedContext> {
     const sprites: Partial<Record<SpriteName, Sprite>> = {};

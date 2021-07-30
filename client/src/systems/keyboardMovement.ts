@@ -1,9 +1,9 @@
 import Context from "../Context";
 import { Direction } from "../types";
 import { move } from "../utils";
-import { shiftKeydownEvents } from "./handleKeydown";
+import { pullKeydown } from "./handleKeydown";
 
-function mapKeyCode(code: string): Direction | undefined {
+function mapKey(code: string): Direction | undefined {
   if (code === "ArrowRight") {
     return "e";
   } else if (code === "ArrowLeft") {
@@ -23,8 +23,8 @@ const FOLLOWED_KEYS = new Set<KeyboardEvent["code"]>([
 ]);
 
 export default function movement(ctx: Context) {
-  const keyCode = shiftKeydownEvents(ctx, FOLLOWED_KEYS);
-  if (!keyCode) {
+  const key = pullKeydown(ctx, FOLLOWED_KEYS);
+  if (!key) {
     return;
   }
 
@@ -39,7 +39,7 @@ export default function movement(ctx: Context) {
       return;
     }
 
-    const direction = mapKeyCode(keyCode);
+    const direction = mapKey(key);
     if (!direction) {
       return;
     }

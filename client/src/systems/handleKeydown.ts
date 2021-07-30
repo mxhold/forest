@@ -1,21 +1,19 @@
 import Context from "../Context";
 
-export const shiftKeydownEvents = (ctx: Context, followedKeys: Set<string>) => {
-  const keydownEvents = ctx.keydownEvents;
-
-  const index = keydownEvents.findIndex((e) => followedKeys.has(e));
-
-  if (index === -1) {
-    return null;
+export const pullKeydown = (ctx: Context, followedKeys: Set<string>) => {
+  const key = ctx.pendingKeydown;
+  if (!key) {
+    return;
   }
 
-  ctx.keydownEvents = keydownEvents.filter((_, i) => i !== index);
-
-  return keydownEvents[index];
+  if (followedKeys.has(key)) {
+    ctx.pendingKeydown = null;
+    return key;
+  }
 };
 
 export default function handleKeydown(ctx: Context) {
   document.addEventListener("keydown", (event) => {
-    ctx.keydownEvents.push(event.code);
+    ctx.pendingKeydown = event.code;
   });
 }

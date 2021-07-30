@@ -2,7 +2,7 @@ import { ATTACK } from "../config";
 import Context from "../Context";
 import { AttackStage } from "../types";
 import { msToFrames } from "../utils";
-import { shiftKeydownEvents } from "./handleKeydown";
+import { pullKeydown } from "./handleKeydown";
 
 const framesPerStage = msToFrames(ATTACK.stageDurationMs);
 
@@ -36,10 +36,10 @@ const FOLLOWED_KEYS = new Set<KeyboardEvent["code"]>(["Space"]);
 let animationStartedAtFrame: null | number = null;
 
 export default function attack(ctx: Context) {
-  const keyCode = shiftKeydownEvents(ctx, FOLLOWED_KEYS);
+  const key = pullKeydown(ctx, FOLLOWED_KEYS);
 
   for (const entity of ctx.entities.find("attackStage")) {
-    if (keyCode === "Space" && entity.fetch("attackStage") === "done") {
+    if (key === "Space" && entity.fetch("attackStage") === "done") {
       entity.set("attackStage", "attack1");
       return;
     }
