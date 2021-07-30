@@ -32,17 +32,12 @@ export default function movement(ctx: Context) {
     return;
   }
 
-  const entities = ctx.entities.find(
+  for (const entity of ctx.entities.find(
     "orientation",
     "walkStage",
     "keyboardControlled"
-  );
-  if (entities.length < 1) {
-    return;
-  }
-
-  for (const entity of entities) {
-    if (entity.get("walkStage").walkStage !== "stop") {
+  )) {
+    if (entity.fetch("walkStage") !== "stop") {
       return;
     }
 
@@ -52,8 +47,8 @@ export default function movement(ctx: Context) {
     }
 
     // Don't move if changing directions
-    if (direction !== entity.get("orientation").orientation) {
-      entity.get("orientation").orientation = direction;
+    if (direction !== entity.fetch("orientation")) {
+      entity.set("orientation", direction);
       return;
     }
 
@@ -64,9 +59,9 @@ export default function movement(ctx: Context) {
     );
 
     if (ctx.canvas.inBounds(newPosition, ctx.sprites.player)) {
-      entity.get("orientation").orientation = direction;
+      entity.set("orientation", direction);
       ctx.logicalPosition = newPosition;
-      entity.get("walkStage").walkStage = "step1";
+      entity.set("walkStage", "step1");
     }
   }
 }

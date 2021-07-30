@@ -38,19 +38,13 @@ let animationStartedAtFrame: null | number = null;
 export default function attack(ctx: Context) {
   const keyCode = shiftKeydownEvents(ctx, FOLLOWED_KEYS);
 
-  const entities = ctx.entities.find("attackStage");
-  if (entities.length < 1) {
-    return;
-  }
-
-  for (const entity of entities) {
-    const attackStage = entity.get("attackStage").attackStage;
-    if (keyCode === "Space" && attackStage === "done") {
-      entity.get("attackStage").attackStage = "attack1";
+  for (const entity of ctx.entities.find("attackStage")) {
+    if (keyCode === "Space" && entity.fetch("attackStage") === "done") {
+      entity.set("attackStage", "attack1");
       return;
     }
 
-    if (attackStage === "done") {
+    if (entity.fetch("attackStage") === "done") {
       return;
     }
 
@@ -58,9 +52,12 @@ export default function attack(ctx: Context) {
       animationStartedAtFrame = ctx.frame;
     }
 
-    if (ctx.frame > finishStageAtFrame(attackStage) + animationStartedAtFrame) {
-      entity.get("attackStage").attackStage = nextStage(attackStage);
-      if (entity.get("attackStage").attackStage === "done") {
+    if (
+      ctx.frame >
+      finishStageAtFrame(entity.fetch("attackStage")) + animationStartedAtFrame
+    ) {
+      entity.set("attackStage", nextStage(entity.fetch("attackStage")));
+      if (entity.fetch("attackStage") === "done") {
         animationStartedAtFrame = null;
       }
     }

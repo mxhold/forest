@@ -1,4 +1,5 @@
 type FindByTag<Union, Tag> = Union extends { tag: Tag } ? Union : never;
+type KeysOfUnion<T> = T extends T ? keyof T : never;
 
 interface IComponent {
   tag: string;
@@ -21,13 +22,28 @@ class Entity<Component extends IComponent> {
     return tags.filter((t) => this.components.has(t)).length === tags.length;
   }
 
-  get<Tag extends Component["tag"]>(
+  #get<Tag extends Component["tag"]>(
     componentTag: Tag
   ): FindByTag<Component, Tag> {
     if (!this.components.has(componentTag)) {
       throw new Error(`Entity: no component with tag ${componentTag}`);
     }
     return this.components.get(componentTag) as FindByTag<Component, Tag>;
+  }
+
+  fetch<Tag extends Component["tag"] & KeysOfUnion<Component>>(
+    componentTag: Tag
+  ): FindByTag<Component, Tag>[Tag] {
+    const component = this.#get(componentTag);
+    return component[componentTag];
+  }
+
+  set<Tag extends Component["tag"] & KeysOfUnion<Component>>(
+    componentTag: Tag,
+    value: FindByTag<Component, Tag>[Tag]
+  ) {
+    const component = this.#get(componentTag);
+    component[componentTag] = value;
   }
 }
 
