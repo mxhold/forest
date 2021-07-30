@@ -16,6 +16,10 @@ export default function playerSetup(ctx: Context) {
       position: { x: 0, y: 0 },
     })
     .add({
+      tag: "spritePosition",
+      spritePosition: { x: 0, y: 0 },
+    })
+    .add({
       tag: "orientation",
       orientation: "s",
     })

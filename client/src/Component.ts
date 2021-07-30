@@ -14,6 +14,13 @@ export type Component =
       };
     }
   | {
+      tag: "spritePosition";
+      spritePosition: {
+        x: number;
+        y: number;
+      };
+    }
+  | {
       tag: "sprite";
       sprite: Sprite;
     }

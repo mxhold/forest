@@ -35,7 +35,9 @@ export default function movement(ctx: Context) {
   for (const entity of ctx.entities.find(
     "orientation",
     "walkStage",
-    "keyboardControlled"
+    "keyboardControlled",
+    "position",
+    "sprite"
   )) {
     if (entity.fetch("walkStage") !== "stop") {
       return;
@@ -53,14 +55,14 @@ export default function movement(ctx: Context) {
     }
 
     const newPosition = move(
-      ctx.logicalPosition,
+      entity.fetch("position"),
       direction,
-      ctx.sprites.player.width
+      entity.fetch("sprite").width
     );
 
     if (ctx.canvas.inBounds(newPosition, ctx.sprites.player)) {
       entity.set("orientation", direction);
-      ctx.logicalPosition = newPosition;
+      entity.set("position", newPosition);
       entity.set("walkStage", "step1");
     }
   }

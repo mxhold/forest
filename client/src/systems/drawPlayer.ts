@@ -10,7 +10,7 @@ export default function drawPlayer(ctx: Context) {
 
   for (const entity of ctx.entities.find(
     "sprite",
-    "position",
+    "spritePosition",
     "orientation",
     "walkStage",
     "attackStage"
@@ -32,7 +32,7 @@ export default function drawPlayer(ctx: Context) {
 
     ctx.canvas.drawSprite(
       entity.fetch("sprite"),
-      entity.fetch("position"),
+      entity.fetch("spritePosition"),
       entity.fetch("orientation"),
       frame
     );

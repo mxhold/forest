@@ -65,23 +65,3 @@ export class EntityCollection<Component extends IComponent> {
     >[];
   }
 }
-
-// type TComponent =
-//   | {
-//       tag: "str";
-//       str: string;
-//     }
-//   | {
-//       tag: "num";
-//       num: number;
-//     }
-//   | {
-//       tag: "obj";
-//       obj: object;
-//     };
-
-// const entities = new EntityCollection<TComponent>();
-// const ets = entities.find("obj", "str")[0];
-// ets.get("str").str;
-// ets.get("num").num;
-// ets.get("obj").obj;
