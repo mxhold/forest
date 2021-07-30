@@ -1,28 +1,36 @@
-import { GAME } from "../../config";
+import { ENGINE } from "../../config";
 
-interface IContext {
-  load(): Promise<void>;
+interface IUnloadedContext<LoadedContext> {
+  load(): Promise<LoadedContext>;
 }
 
-type ContextClass<Context extends IContext> = {
+type UnloadedContextClass<
+  Context extends IUnloadedContext<LoadedContext>,
+  LoadedContext
+> = {
   new (): Context;
 };
 
 type System<Context> = (ctx: Context) => void;
 
-class AppBuilder<Context extends IContext> {
-  app: App<Context>;
+class AppBuilder<
+  UnloadedContext extends IUnloadedContext<LoadedContext>,
+  LoadedContext
+> {
+  app: App<UnloadedContext, LoadedContext>;
 
-  constructor(contextClass: ContextClass<Context>) {
+  constructor(
+    contextClass: UnloadedContextClass<UnloadedContext, LoadedContext>
+  ) {
     this.app = new App(contextClass);
   }
 
-  addStartupSystem(system: System<Context>) {
+  addStartupSystem(system: System<LoadedContext>) {
     this.app.startupSystems.push(system);
     return this;
   }
 
-  addSystem(system: System<Context>) {
+  addSystem(system: System<LoadedContext>) {
     this.app.systems.push(system);
     return this;
   }
@@ -32,17 +40,24 @@ class AppBuilder<Context extends IContext> {
   }
 }
 
-export default class App<Context extends IContext> {
-  systems: System<Context>[] = [];
-  startupSystems: System<Context>[] = [];
-  context: Context;
+export default class App<
+  UnloadedContext extends IUnloadedContext<LoadedContext>,
+  LoadedContext
+> {
+  systems: System<LoadedContext>[] = [];
+  startupSystems: System<LoadedContext>[] = [];
+  unloadedContext: UnloadedContext;
+  loadedContext?: LoadedContext;
 
-  static build<Context extends IContext>(contextClass: ContextClass<Context>) {
-    return new AppBuilder(contextClass);
+  static build<
+    UnloadedContext extends IUnloadedContext<LoadedContext>,
+    LoadedContext
+  >(contextClass: UnloadedContextClass<UnloadedContext, LoadedContext>) {
+    return new AppBuilder<UnloadedContext, LoadedContext>(contextClass);
   }
 
   static startLoop(execute: () => void) {
-    const delay = 1000 / GAME.framesPerSecond;
+    const delay = 1000 / ENGINE.framesPerSecond;
     let start: number;
     const loop = (timestamp: number) => {
       if (start === undefined) {
@@ -60,13 +75,15 @@ export default class App<Context extends IContext> {
     window.requestAnimationFrame(loop);
   }
 
-  constructor(contextClass: ContextClass<Context>) {
-    this.context = new contextClass();
+  constructor(
+    contextClass: UnloadedContextClass<UnloadedContext, LoadedContext>
+  ) {
+    this.unloadedContext = new contextClass();
   }
 
   async run() {
     try {
-      await this.context.load();
+      this.loadedContext = await this.unloadedContext.load();
     } catch (e) {
       console.error("Context loading error:", e);
     }
@@ -79,14 +96,22 @@ export default class App<Context extends IContext> {
   }
 
   executeStartupSystems() {
+    if (!this.loadedContext) {
+      throw new Error("Context not loaded");
+    }
+
     for (const system of this.startupSystems) {
-      system(this.context);
+      system(this.loadedContext);
     }
   }
 
   executeSystems() {
+    if (!this.loadedContext) {
+      throw new Error("Context not loaded");
+    }
+
     for (const system of this.systems) {
-      system(this.context);
+      system(this.loadedContext);
     }
   }
 }

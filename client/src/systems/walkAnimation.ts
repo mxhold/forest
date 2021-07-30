@@ -39,10 +39,6 @@ function nextStage(stage: WalkStage): WalkStage {
 let walkStartedAtFrame: null | number = null;
 
 export default function walkAnimation(ctx: Context) {
-  if (!ctx.sprites) {
-    return;
-  }
-
   const entities = ctx.entities.find(
     "orientation",
     "walkStage",

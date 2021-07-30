@@ -4,7 +4,7 @@ export const CANVAS = {
   size: { width: 400, height: 300 },
 };
 
-export const GAME = {
+export const ENGINE = {
   framesPerSecond: 30,
 };
 

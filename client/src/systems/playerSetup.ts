@@ -1,10 +1,6 @@
 import Context from "../Context";
 
 export default function playerSetup(ctx: Context) {
-  if (!ctx.sprites) {
-    throw new Error("Sprites not loaded");
-  }
-
   ctx.entities
     .create()
     .add({

@@ -1,4 +1,4 @@
-import Context from "./Context";
+import LoadedContext, { UnloadedContext } from "./Context";
 import { App } from "./engine";
 import {
   handleKeydown,
@@ -10,7 +10,7 @@ import {
   playerSetup,
 } from "./systems";
 
-App.build(Context)
+App.build<UnloadedContext, LoadedContext>(UnloadedContext)
   .addStartupSystem(playerSetup)
   .addStartupSystem(handleKeydown)
   .addSystem(drawPlayer)

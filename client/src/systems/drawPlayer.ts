@@ -2,10 +2,6 @@ import Context from "../Context";
 import { SpriteFrame } from "../types";
 
 export default function drawPlayer(ctx: Context) {
-  if (!ctx.sprites) {
-    return;
-  }
-
   ctx.canvas.clear();
 
   for (const entity of ctx.entities.find(

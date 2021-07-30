@@ -1,4 +1,4 @@
-import { GAME } from "./config";
+import { ENGINE } from "./config";
 import { Position, Direction } from "./types";
 
 export function move(
@@ -19,7 +19,7 @@ export function move(
 }
 
 export const msToFrames = (ms: number) => {
-  const msPerFrame = (1 / GAME.framesPerSecond) * 1000;
+  const msPerFrame = (1 / ENGINE.framesPerSecond) * 1000;
   return ms / msPerFrame;
 };
 

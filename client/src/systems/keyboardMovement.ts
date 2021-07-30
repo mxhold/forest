@@ -23,10 +23,6 @@ const FOLLOWED_KEYS = new Set<KeyboardEvent["code"]>([
 ]);
 
 export default function movement(ctx: Context) {
-  if (!ctx.sprites) {
-    return;
-  }
-
   const keyCode = shiftKeydownEvents(ctx, FOLLOWED_KEYS);
   if (!keyCode) {
     return;
