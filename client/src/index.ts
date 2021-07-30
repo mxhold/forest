@@ -7,9 +7,11 @@ import {
   walkAnimation,
   countFrames,
   attack,
+  playerSetup,
 } from "./systems";
 
 App.build(Context)
+  .addStartupSystem(playerSetup)
   .addStartupSystem(handleKeydown)
   .addSystem(drawPlayer)
   .addSystem(keyboardMovement)

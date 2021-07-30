@@ -43,23 +43,34 @@ export default function walkAnimation(ctx: Context) {
     return;
   }
 
-  if (ctx.walkStage === "stop") {
-    ctx.graphicalPosition = ctx.logicalPosition;
+  const entities = ctx.entities.find("orientation");
+  if (entities.length < 1) {
     return;
   }
 
-  if (walkStartedAtFrame === null) {
-    walkStartedAtFrame = ctx.frame;
-  }
-
-  if (ctx.frame > finishStageAtFrame(ctx.walkStage) + walkStartedAtFrame) {
-    ctx.walkStage = nextStage(ctx.walkStage);
+  for (const entity of entities) {
     if (ctx.walkStage === "stop") {
-      walkStartedAtFrame = null;
+      entity.get("position").position = ctx.logicalPosition;
+      return;
     }
+
+    if (walkStartedAtFrame === null) {
+      walkStartedAtFrame = ctx.frame;
+    }
+
+    if (ctx.frame > finishStageAtFrame(ctx.walkStage) + walkStartedAtFrame) {
+      ctx.walkStage = nextStage(ctx.walkStage);
+      if (ctx.walkStage === "stop") {
+        walkStartedAtFrame = null;
+      }
+    }
+
+    const stageOffset = offset(ctx.walkStage, ctx.sprites.player.width);
+
+    entity.get("position").position = move(
+      ctx.logicalPosition,
+      entity.get("orientation").orientation,
+      stageOffset
+    );
   }
-
-  const stageOffset = offset(ctx.walkStage, ctx.sprites.player.width);
-
-  ctx.graphicalPosition = move(ctx.logicalPosition, ctx.direction, stageOffset);
 }

@@ -32,30 +32,37 @@ export default function movement(ctx: Context) {
     return;
   }
 
-  if (ctx.walkStage !== "stop") {
+  const entities = ctx.entities.find("orientation");
+  if (entities.length < 1) {
     return;
   }
 
-  const direction = mapKeyCode(keyCode);
-  if (!direction) {
-    return;
-  }
+  for (const entity of entities) {
+    if (ctx.walkStage !== "stop") {
+      return;
+    }
 
-  // Don't move if changing directions
-  if (direction !== ctx.direction) {
-    ctx.direction = direction;
-    return;
-  }
+    const direction = mapKeyCode(keyCode);
+    if (!direction) {
+      return;
+    }
 
-  const newPosition = move(
-    ctx.logicalPosition,
-    direction,
-    ctx.sprites.player.width
-  );
+    // Don't move if changing directions
+    if (direction !== entity.get("orientation").orientation) {
+      entity.get("orientation").orientation = direction;
+      return;
+    }
 
-  if (ctx.canvas.inBounds(newPosition, ctx.sprites.player)) {
-    ctx.direction = direction;
-    ctx.logicalPosition = newPosition;
-    ctx.walkStage = "step1";
+    const newPosition = move(
+      ctx.logicalPosition,
+      direction,
+      ctx.sprites.player.width
+    );
+
+    if (ctx.canvas.inBounds(newPosition, ctx.sprites.player)) {
+      entity.get("orientation").orientation = direction;
+      ctx.logicalPosition = newPosition;
+      ctx.walkStage = "step1";
+    }
   }
 }

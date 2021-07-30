@@ -3,6 +3,7 @@ import countFrames from "./countFrames";
 import drawPlayer from "./drawPlayer";
 import handleKeydown from "./handleKeydown";
 import keyboardMovement from "./keyboardMovement";
+import playerSetup from "./playerSetup";
 import walkAnimation from "./walkAnimation";
 
 export {
@@ -12,4 +13,5 @@ export {
   walkAnimation,
   countFrames,
   attack,
+  playerSetup,
 };

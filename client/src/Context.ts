@@ -1,16 +1,16 @@
+import { Component } from "./Component";
 import { CANVAS, SPRITES } from "./config";
-import { Canvas, Sprite } from "./engine";
-import { Direction, Position, WalkStage, AttackStage } from "./types";
+import { Canvas, EntityCollection, Sprite } from "./engine";
+import { Position, WalkStage, AttackStage } from "./types";
 
 type SpriteName = keyof typeof SPRITES;
 
 export default class Context {
+  entities: EntityCollection<Component> = new EntityCollection();
   frame: number = 1;
   canvas: Canvas = new Canvas({ id: "canvas", alpha: true, ...CANVAS.size });
   keydownEvents: KeyboardEvent["code"][] = [];
   logicalPosition: Position = { x: 0, y: 0 };
-  graphicalPosition: Position = { x: 0, y: 0 };
-  direction: Direction = "s";
   sprites?: Record<SpriteName, Sprite>;
   walkStage: WalkStage = "stop";
   attackStage: AttackStage = "done";
