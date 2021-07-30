@@ -38,26 +38,35 @@ let animationStartedAtFrame: null | number = null;
 export default function attack(ctx: Context) {
   const keyCode = shiftKeydownEvents(ctx, FOLLOWED_KEYS);
 
-  if (keyCode === "Space" && ctx.attackStage === "done") {
-    ctx.attackStage = "attack1";
+  const entities = ctx.entities.find(
+    "orientation",
+    "walkStage",
+    "keyboardControlled"
+  );
+  if (entities.length < 1) {
     return;
   }
 
-  if (ctx.attackStage === "done") {
-    return;
-  }
+  for (const entity of entities) {
+    const attackStage = entity.get("attackStage").attackStage;
+    if (keyCode === "Space" && attackStage === "done") {
+      entity.get("attackStage").attackStage = "attack1";
+      return;
+    }
 
-  if (animationStartedAtFrame === null) {
-    animationStartedAtFrame = ctx.frame;
-  }
+    if (attackStage === "done") {
+      return;
+    }
 
-  if (
-    ctx.frame >
-    finishStageAtFrame(ctx.attackStage) + animationStartedAtFrame
-  ) {
-    ctx.attackStage = nextStage(ctx.attackStage);
-    if (ctx.attackStage === "done") {
-      animationStartedAtFrame = null;
+    if (animationStartedAtFrame === null) {
+      animationStartedAtFrame = ctx.frame;
+    }
+
+    if (ctx.frame > finishStageAtFrame(attackStage) + animationStartedAtFrame) {
+      entity.get("attackStage").attackStage = nextStage(attackStage);
+      if (entity.get("attackStage").attackStage === "done") {
+        animationStartedAtFrame = null;
+      }
     }
   }
 }

@@ -12,8 +12,6 @@ export default class Context {
   keydownEvents: KeyboardEvent["code"][] = [];
   logicalPosition: Position = { x: 0, y: 0 };
   sprites?: Record<SpriteName, Sprite>;
-  walkStage: WalkStage = "stop";
-  attackStage: AttackStage = "done";
 
   async load() {
     const sprites: Partial<Record<SpriteName, Sprite>> = {};

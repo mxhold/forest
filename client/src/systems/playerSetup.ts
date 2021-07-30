@@ -20,6 +20,14 @@ export default function playerSetup(ctx: Context) {
       orientation: "s",
     })
     .add({
-      tag: "keyboard_controlled",
+      tag: "keyboardControlled",
+    })
+    .add({
+      tag: "walkStage",
+      walkStage: "stop",
+    })
+    .add({
+      tag: "attackStage",
+      attackStage: "done",
     });
 }

@@ -13,7 +13,7 @@ type System<Context> = (ctx: Context) => void;
 class AppBuilder<Context extends IContext> {
   app: App<Context>;
 
-  constructor(contextClass: { new (): Context }) {
+  constructor(contextClass: ContextClass<Context>) {
     this.app = new App(contextClass);
   }
 
@@ -37,11 +37,11 @@ export default class App<Context extends IContext> {
   startupSystems: System<Context>[] = [];
   context: Context;
 
-  static build<C extends IContext>(contextClass: ContextClass<C>) {
+  static build<Context extends IContext>(contextClass: ContextClass<Context>) {
     return new AppBuilder(contextClass);
   }
 
-  static startLoop(cb: () => void) {
+  static startLoop(execute: () => void) {
     const delay = 1000 / GAME.framesPerSecond;
     let start: number;
     const loop = (timestamp: number) => {
@@ -52,7 +52,7 @@ export default class App<Context extends IContext> {
       if (elapsed > delay) {
         start = timestamp;
 
-        cb();
+        execute();
       }
 
       window.requestAnimationFrame(loop);
@@ -70,7 +70,9 @@ export default class App<Context extends IContext> {
     } catch (e) {
       console.error("Context loading error:", e);
     }
+
     this.executeStartupSystems();
+
     App.startLoop(() => {
       this.executeSystems();
     });

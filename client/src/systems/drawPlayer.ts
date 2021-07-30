@@ -6,7 +6,13 @@ export default function drawPlayer(ctx: Context) {
     return;
   }
 
-  const entities = ctx.entities.find("sprite", "position", "orientation");
+  const entities = ctx.entities.find(
+    "sprite",
+    "position",
+    "orientation",
+    "walkStage",
+    "attackStage"
+  );
   if (entities.length < 1) {
     return;
   }
@@ -14,16 +20,19 @@ export default function drawPlayer(ctx: Context) {
   ctx.canvas.clear();
 
   for (const entity of entities) {
+    const walkStage = entity.get("walkStage").walkStage;
+    const attackStage = entity.get("attackStage").attackStage;
+
     let frame: SpriteFrame;
-    if (ctx.walkStage === "step1") {
+    if (walkStage === "step1") {
       frame = "step1";
-    } else if (ctx.walkStage === "step2") {
+    } else if (walkStage === "step2") {
       frame = "step2";
-    } else if (ctx.attackStage === "attack1") {
+    } else if (attackStage === "attack1") {
       frame = "attack1";
-    } else if (ctx.attackStage === "attack2") {
+    } else if (attackStage === "attack2") {
       frame = "attack2";
-    } else if (ctx.attackStage === "attack3") {
+    } else if (attackStage === "attack3") {
       frame = "attack3";
     } else {
       frame = "stand";
