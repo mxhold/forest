@@ -10,6 +10,7 @@ export const ENGINE = {
 
 export const MOVEMENT = {
   stageDurationMs: 50,
+  tileWidth: 19,
 };
 
 export const ATTACK = {
@@ -30,12 +31,12 @@ const snake: SpriteConfig = {
   image: "assets/snake.png",
   size: { width: 24, height: 24 },
   frames: [
-    "e_stand",
-    "e_step1",
-    "e_step2",
     "w_stand",
     "w_step1",
     "w_step2",
+    "e_stand",
+    "e_step1",
+    "e_step2",
     "n_step1",
     "n_step2",
     "s_step1",

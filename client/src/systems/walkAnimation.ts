@@ -39,20 +39,15 @@ function nextStage(stage: WalkStage): WalkStage {
 let walkStartedAtFrame: null | number = null;
 
 export default function walkAnimation(ctx: Context) {
-  const entities = ctx.entities.find(
+  for (const entity of ctx.entities.find(
     "orientation",
     "walkStage",
     "position",
     "spritePosition"
-  );
-  if (entities.length < 1) {
-    return;
-  }
-
-  for (const entity of entities) {
+  )) {
     if (entity.fetch("walkStage") === "stop") {
       entity.set("spritePosition", entity.fetch("position"));
-      return;
+      continue;
     }
 
     if (walkStartedAtFrame === null) {
@@ -69,10 +64,7 @@ export default function walkAnimation(ctx: Context) {
       }
     }
 
-    const stageOffset = offset(
-      entity.fetch("walkStage"),
-      ctx.sprites.player.width
-    );
+    const stageOffset = offset(entity.fetch("walkStage"), MOVEMENT.tileWidth);
 
     entity.set(
       "spritePosition",

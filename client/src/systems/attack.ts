@@ -41,11 +41,11 @@ export default function attack(ctx: Context) {
   for (const entity of ctx.entities.find("attackStage")) {
     if (key === "Space" && entity.fetch("attackStage") === "done") {
       entity.set("attackStage", "attack1");
-      return;
+      continue;
     }
 
     if (entity.fetch("attackStage") === "done") {
-      return;
+      continue;
     }
 
     if (animationStartedAtFrame === null) {

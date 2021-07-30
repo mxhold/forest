@@ -1,17 +1,19 @@
 import attack from "./attack";
 import countFrames from "./countFrames";
-import drawPlayer from "./drawPlayer";
+import drawSprite from "./drawSprite";
 import handleKeydown from "./handleKeydown";
 import keyboardMovement from "./keyboardMovement";
 import playerSetup from "./playerSetup";
+import snakeSetup from "./snakeSetup";
 import walkAnimation from "./walkAnimation";
 
 export {
-  drawPlayer,
+  drawSprite,
   handleKeydown,
   keyboardMovement,
   walkAnimation,
   countFrames,
   attack,
   playerSetup,
+  snakeSetup,
 };

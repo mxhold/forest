@@ -2,18 +2,20 @@ import LoadedContext, { UnloadedContext } from "./Context";
 import { App } from "./engine";
 import {
   handleKeydown,
-  drawPlayer,
+  drawSprite,
   keyboardMovement,
   walkAnimation,
   countFrames,
   attack,
   playerSetup,
+  snakeSetup,
 } from "./systems";
 
 App.build<UnloadedContext, LoadedContext>(UnloadedContext)
   .addStartupSystem(playerSetup)
+  .addStartupSystem(snakeSetup)
   .addStartupSystem(handleKeydown)
-  .addSystem(drawPlayer)
+  .addSystem(drawSprite)
   .addSystem(keyboardMovement)
   .addSystem(walkAnimation)
   .addSystem(attack)

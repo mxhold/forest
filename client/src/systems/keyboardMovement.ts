@@ -1,3 +1,4 @@
+import { MOVEMENT } from "../config";
 import Context from "../Context";
 import { Direction } from "../types";
 import { move } from "../utils";
@@ -36,24 +37,24 @@ export default function movement(ctx: Context) {
     "sprite"
   )) {
     if (entity.fetch("walkStage") !== "stop") {
-      return;
+      continue;
     }
 
     const direction = mapKey(key);
     if (!direction) {
-      return;
+      continue;
     }
 
     // Don't move if changing directions
     if (direction !== entity.fetch("orientation")) {
       entity.set("orientation", direction);
-      return;
+      continue;
     }
 
     const newPosition = move(
       entity.fetch("position"),
       direction,
-      entity.fetch("sprite").width
+      MOVEMENT.tileWidth
     );
 
     if (ctx.canvas.inBounds(newPosition, ctx.sprites.player)) {

@@ -1,7 +1,7 @@
 import Context from "../Context";
 import { SpriteFrame } from "../types";
 
-export default function drawPlayer(ctx: Context) {
+export default function drawSprite(ctx: Context) {
   ctx.canvas.clear();
 
   for (const entity of ctx.entities.find(
