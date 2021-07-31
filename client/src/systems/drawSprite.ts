@@ -1,5 +1,4 @@
 import Context from "../Context";
-import { SpriteFrame } from "../types";
 
 export default function drawSprite(ctx: Context) {
   ctx.canvas.clear();

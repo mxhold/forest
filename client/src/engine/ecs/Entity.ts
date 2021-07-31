@@ -5,7 +5,10 @@ interface IComponent {
   tag: string;
 }
 
-export class Entity<Component extends IComponent> {
+export class Entity<
+  Component extends IComponent,
+  AllComponents extends IComponent
+> {
   id: number;
   components: Map<Component["tag"], Component> = new Map();
 
@@ -13,9 +16,12 @@ export class Entity<Component extends IComponent> {
     this.id = id;
   }
 
-  add(component: Component): this {
-    this.components.set(component.tag, component);
-    return this;
+  add<C extends AllComponents>(
+    component: C
+  ): Entity<C | Component, AllComponents> {
+    const entity = this as Entity<C | Component, AllComponents>;
+    entity.components.set(component.tag, component);
+    return entity;
   }
 
   delete<Tag extends Component["tag"]>(tag: Tag) {
@@ -53,19 +59,20 @@ export class Entity<Component extends IComponent> {
 
 export class EntityCollection<Component extends IComponent> {
   nextId: number = 1;
-  entities: Entity<Component>[] = [];
+  entities: Entity<Component, Component>[] = [];
 
   create() {
-    const entity = new Entity<Component>(this.nextId++);
+    const entity = new Entity<Component, Component>(this.nextId++);
     this.entities.push(entity);
     return entity;
   }
 
   find<Tag extends Component["tag"]>(
     ...tags: Tag[]
-  ): Entity<FindByTag<Component, Tag>>[] {
+  ): Entity<FindByTag<Component, Tag>, Component>[] {
     return this.entities.filter((e) => e.has(...tags)) as Entity<
-      FindByTag<Component, Tag>
+      FindByTag<Component, Tag>,
+      Component
     >[];
   }
 }

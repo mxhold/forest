@@ -14,7 +14,7 @@ export default function walkStage(ctx: Context) {
       continue;
     }
 
-    (entity as Entity<Component>).add({
+    entity.add({
       tag: "spriteFrame",
       spriteFrame: frame,
     });

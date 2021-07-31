@@ -31,7 +31,7 @@ export default function movement(ctx: Context) {
     return;
   }
 
-  for (const entity of ctx.entities.find(
+  for (let entity of ctx.entities.find(
     "orientation",
     "walkStage",
     "keyboardControlled",
@@ -52,21 +52,9 @@ export default function movement(ctx: Context) {
       continue;
     }
 
-    // TODO: remove need for assertion
-    (entity as Entity<Component>).add({
+    entity.add({
       tag: "movementIntent",
       movementIntent: direction,
     });
-
-    // const newPosition = move(
-    //   entity.fetch("position"),
-    //   direction,
-    //   MOVEMENT.tileWidth
-    // );
-
-    // if (ctx.canvas.inBounds(newPosition)) {
-    //   entity.set("position", newPosition);
-    //   entity.set("walkStage", "step1");
-    // }
   }
 }

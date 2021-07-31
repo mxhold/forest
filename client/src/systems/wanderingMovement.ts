@@ -13,7 +13,7 @@ export default function wanderingMovement(ctx: Context) {
     "walkStage"
   )) {
     if (ctx.frame % wanderEveryNFrame === 0) {
-      (entity as Entity<Component>).add({
+      entity.add({
         tag: "movementIntent",
         movementIntent: "e",
       });
