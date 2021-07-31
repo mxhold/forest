@@ -58,12 +58,12 @@ export default class Canvas {
     );
   }
 
-  inBounds(position: Position, sprite: Sprite) {
+  inBounds(position: Position) {
     return (
       position.x >= 0 &&
       position.y >= 0 &&
-      position.x + sprite.width < this.width &&
-      position.y + sprite.height < this.height
+      position.x < this.width &&
+      position.y < this.height
     );
   }
 }

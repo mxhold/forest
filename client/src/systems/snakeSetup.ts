@@ -20,14 +20,14 @@ export default function snakeSetup(ctx: Context) {
       orientation: "e",
     })
     .add({
-      tag: "keyboardControlled",
+      tag: "wandering",
     })
     .add({
       tag: "walkStage",
       walkStage: "stop",
     })
     .add({
-      tag: "attackStage",
-      attackStage: "done",
+      tag: "spriteFrame",
+      spriteFrame: "stand",
     });
 }

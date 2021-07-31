@@ -9,15 +9,23 @@ import {
   attack,
   playerSetup,
   snakeSetup,
+  wanderingMovement,
+  movement,
+  attackStage,
+  walkStage,
 } from "./systems";
 
 App.build<UnloadedContext, LoadedContext>(UnloadedContext)
   .addStartupSystem(playerSetup)
   .addStartupSystem(snakeSetup)
   .addStartupSystem(handleKeydown)
-  .addSystem(drawSprite)
   .addSystem(keyboardMovement)
-  .addSystem(walkAnimation)
+  .addSystem(wanderingMovement)
   .addSystem(attack)
+  .addSystem(walkStage)
+  .addSystem(attackStage)
+  .addSystem(movement)
+  .addSystem(walkAnimation)
   .addSystem(countFrames)
+  .addSystem(drawSprite)
   .run();

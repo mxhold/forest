@@ -1,5 +1,7 @@
+import { Component } from "../Component";
 import { MOVEMENT } from "../config";
 import Context from "../Context";
+import { Entity } from "../engine/ecs/Entity";
 import { Direction } from "../types";
 import { move } from "../utils";
 import { pullKeydown } from "./handleKeydown";
@@ -33,8 +35,7 @@ export default function movement(ctx: Context) {
     "orientation",
     "walkStage",
     "keyboardControlled",
-    "position",
-    "sprite"
+    "position"
   )) {
     if (entity.fetch("walkStage") !== "stop") {
       continue;
@@ -51,15 +52,21 @@ export default function movement(ctx: Context) {
       continue;
     }
 
-    const newPosition = move(
-      entity.fetch("position"),
-      direction,
-      MOVEMENT.tileWidth
-    );
+    // TODO: remove need for assertion
+    (entity as Entity<Component>).add({
+      tag: "movementIntent",
+      movementIntent: direction,
+    });
 
-    if (ctx.canvas.inBounds(newPosition, ctx.sprites.player)) {
-      entity.set("position", newPosition);
-      entity.set("walkStage", "step1");
-    }
+    // const newPosition = move(
+    //   entity.fetch("position"),
+    //   direction,
+    //   MOVEMENT.tileWidth
+    // );
+
+    // if (ctx.canvas.inBounds(newPosition)) {
+    //   entity.set("position", newPosition);
+    //   entity.set("walkStage", "step1");
+    // }
   }
 }

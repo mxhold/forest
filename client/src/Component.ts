@@ -1,5 +1,5 @@
 import { Sprite } from "./engine";
-import { AttackStage, Direction, WalkStage } from "./types";
+import { AttackStage, Direction, SpriteFrame, WalkStage } from "./types";
 
 export type Component =
   | {
@@ -21,12 +21,17 @@ export type Component =
       };
     }
   | {
+      tag: "spriteFrame";
+      spriteFrame: SpriteFrame;
+    }
+  | {
       tag: "sprite";
       sprite: Sprite;
     }
   | {
       tag: "keyboardControlled";
     }
+  | { tag: "wandering" }
   | {
       tag: "walkStage";
       walkStage: WalkStage;
@@ -34,4 +39,8 @@ export type Component =
   | {
       tag: "attackStage";
       attackStage: AttackStage;
+    }
+  | {
+      tag: "movementIntent";
+      movementIntent: Direction;
     };

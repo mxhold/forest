@@ -5,7 +5,7 @@ interface IComponent {
   tag: string;
 }
 
-class Entity<Component extends IComponent> {
+export class Entity<Component extends IComponent> {
   id: number;
   components: Map<Component["tag"], Component> = new Map();
 
@@ -16,6 +16,10 @@ class Entity<Component extends IComponent> {
   add(component: Component): this {
     this.components.set(component.tag, component);
     return this;
+  }
+
+  delete<Tag extends Component["tag"]>(tag: Tag) {
+    this.components.delete(tag);
   }
 
   has(...tags: Component["tag"][]): boolean {
