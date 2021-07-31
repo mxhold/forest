@@ -4,8 +4,14 @@ body {
   overflow: hidden;
 }
 
+.canvases {
+  position: relative;
+}
+
 canvas {
-  background-color: #b7b7a4;
+  position: absolute;
+  top: 0;
+  left: 0;
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-crisp-edges;
   image-rendering: pixelated;

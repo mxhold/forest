@@ -38,6 +38,14 @@ export default class Canvas {
     this.#ctx.fill();
   }
 
+  drawBackground(image: CanvasImageSource) {
+    this.#ctx.drawImage(
+      image,
+      0,
+      0
+    )
+  }
+
   drawSprite(
     sprite: Sprite,
     position: Position,

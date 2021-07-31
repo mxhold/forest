@@ -1,5 +1,6 @@
 import attack from "./attack";
 import countFrames from "./countFrames";
+import drawBackground from "./drawBackground";
 import drawSprite from "./drawSprite";
 import handleKeydown from "./handleKeydown";
 import keyboardMovement from "./keyboardMovement";
@@ -20,4 +21,5 @@ export {
   snakeSetup,
   wanderingMovement,
   movement,
+  drawBackground,
 };

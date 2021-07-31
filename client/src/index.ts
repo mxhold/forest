@@ -11,6 +11,7 @@ import {
   snakeSetup,
   wanderingMovement,
   movement,
+  drawBackground,
 } from "./systems";
 
 App.build<UnloadedContext, LoadedContext>(UnloadedContext)
@@ -23,5 +24,6 @@ App.build<UnloadedContext, LoadedContext>(UnloadedContext)
   .addSystem(movement)
   .addSystem(walkAnimation)
   .addSystem(countFrames)
+  .addSystem(drawBackground)
   .addSystem(drawSprite)
   .run();

@@ -10,7 +10,7 @@ export const ENGINE = {
 
 export const MOVEMENT = {
   stageDurationMs: 50,
-  tileWidth: 19,
+  tileWidth: 20,
   wanderEveryMs: 3000,
 };
 

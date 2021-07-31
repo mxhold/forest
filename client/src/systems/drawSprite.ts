@@ -3,7 +3,7 @@ import { Sprite } from "../engine";
 import { Direction, Position, SpriteFrame } from "../types";
 
 export default function drawSprite(ctx: Context) {
-  ctx.canvas.clear();
+  ctx.foregroundCanvas.clear();
 
   let sprites: [Sprite, Position, Direction, SpriteFrame][] = [];
 
@@ -52,6 +52,6 @@ export default function drawSprite(ctx: Context) {
   );
 
   for (const [sprite, spritePosition, orientation, spriteFrame] of sprites) {
-    ctx.canvas.drawSprite(sprite, spritePosition, orientation, spriteFrame);
+    ctx.foregroundCanvas.drawSprite(sprite, spritePosition, orientation, spriteFrame);
   }
 }

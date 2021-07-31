@@ -24,7 +24,7 @@ export default function movement(ctx: Context) {
       MOVEMENT.tileWidth
     );
 
-    if (ctx.canvas.inBounds(newPosition)) {
+    if (ctx.foregroundCanvas.inBounds(newPosition)) {
       entity.set("position", newPosition);
       entity.set("walkStage", "step1");
     }
