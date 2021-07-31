@@ -32,7 +32,6 @@ export default function movement(ctx: Context) {
   }
 
   for (let entity of ctx.entities.find(
-    "orientation",
     "walkStage",
     "keyboardControlled",
     "position"
@@ -43,12 +42,6 @@ export default function movement(ctx: Context) {
 
     const direction = mapKey(key);
     if (!direction) {
-      continue;
-    }
-
-    // Don't move if changing directions
-    if (direction !== entity.fetch("orientation")) {
-      entity.set("orientation", direction);
       continue;
     }
 

@@ -6,16 +6,25 @@ export default function movement(ctx: Context) {
   for (const entity of ctx.entities.find(
     "movementIntent",
     "position",
-    "walkStage"
+    "walkStage",
+    "orientation"
   )) {
+    const movementIntent = entity.fetch("movementIntent");
+    entity.delete("movementIntent");
+
+    // Don't move if just changing direction
+    if (movementIntent !== entity.fetch("orientation")) {
+      entity.set("orientation", movementIntent);
+      continue;
+    }
+
     const newPosition = move(
       entity.fetch("position"),
-      entity.fetch("movementIntent"),
+      movementIntent,
       MOVEMENT.tileWidth
     );
 
     if (ctx.canvas.inBounds(newPosition)) {
-      entity.delete("movementIntent");
       entity.set("position", newPosition);
       entity.set("walkStage", "step1");
     }
