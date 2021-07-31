@@ -1,8 +1,11 @@
 import Context from "../Context";
-import { SpriteFrame } from "../types";
+import { Sprite } from "../engine";
+import { Direction, Position, SpriteFrame } from "../types";
 
 export default function drawSprite(ctx: Context) {
   ctx.canvas.clear();
+
+  let sprites: [Sprite, Position, Direction, SpriteFrame][] = [];
 
   for (let entity of ctx.entities.find(
     "sprite",
@@ -31,11 +34,24 @@ export default function drawSprite(ctx: Context) {
       }
     });
 
-    ctx.canvas.drawSprite(
+    sprites.push([
       entity.fetch("sprite"),
       entity.fetch("spritePosition"),
       entity.fetch("orientation"),
-      spriteFrame
-    );
+      spriteFrame,
+    ]);
+  }
+
+  sprites.sort(
+    (
+      [spriteA, positionA, _orientationA, _spriteFrameA],
+      [spriteB, positionB, _orientationB, _spriteFrameB]
+    ) => {
+      return positionA.y + spriteA.height - (positionB.y + spriteB.height);
+    }
+  );
+
+  for (const [sprite, spritePosition, orientation, spriteFrame] of sprites) {
+    ctx.canvas.drawSprite(sprite, spritePosition, orientation, spriteFrame);
   }
 }

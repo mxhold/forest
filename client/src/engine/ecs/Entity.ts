@@ -1,4 +1,4 @@
-type FindByTag<Union, Tag> = Union extends { tag: Tag } ? Union : never;
+export type FindByTag<Union, Tag> = Union extends { tag: Tag } ? Union : never;
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 
 interface IComponent {

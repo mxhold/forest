@@ -10,12 +10,14 @@ export default function wanderingMovement(ctx: Context) {
   for (const entity of ctx.entities.find(
     "wandering",
     "position",
-    "walkStage"
+    "walkStage",
+    "orientation"
   )) {
     if (ctx.frame % wanderEveryNFrame === 0) {
+      entity.set("orientation", "s");
       entity.add({
         tag: "movementIntent",
-        movementIntent: "e",
+        movementIntent: "s",
       });
     }
   }
