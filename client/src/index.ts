@@ -11,8 +11,6 @@ import {
   snakeSetup,
   wanderingMovement,
   movement,
-  attackStage,
-  walkStage,
 } from "./systems";
 
 App.build<UnloadedContext, LoadedContext>(UnloadedContext)
@@ -22,8 +20,6 @@ App.build<UnloadedContext, LoadedContext>(UnloadedContext)
   .addSystem(keyboardMovement)
   .addSystem(wanderingMovement)
   .addSystem(attack)
-  .addSystem(walkStage)
-  .addSystem(attackStage)
   .addSystem(movement)
   .addSystem(walkAnimation)
   .addSystem(countFrames)

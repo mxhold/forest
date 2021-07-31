@@ -28,8 +28,23 @@ export class Entity<
     this.components.delete(tag);
   }
 
-  has(...tags: Component["tag"][]): boolean {
+  has<Tag extends AllComponents["tag"]>(...tags: Tag[]): boolean {
     return tags.filter((t) => this.components.has(t)).length === tags.length;
+  }
+
+  ifHas<Tag extends AllComponents["tag"]>(
+    tag: Tag,
+    cb: (
+      e: Entity<FindByTag<AllComponents, Tag> | Component, AllComponents>
+    ) => void
+  ) {
+    if (this.has(tag)) {
+      const e = this as Entity<
+        FindByTag<AllComponents, Tag> | Component,
+        AllComponents
+      >;
+      cb(e);
+    }
   }
 
   #get<Tag extends Component["tag"]>(
@@ -44,8 +59,7 @@ export class Entity<
   fetch<Tag extends Component["tag"] & KeysOfUnion<Component>>(
     componentTag: Tag
   ): FindByTag<Component, Tag>[Tag] {
-    const component = this.#get(componentTag);
-    return component[componentTag];
+    return this.#get(componentTag)[componentTag];
   }
 
   set<Tag extends Component["tag"] & KeysOfUnion<Component>>(

@@ -1,5 +1,5 @@
 import { Sprite } from "./engine";
-import { AttackStage, Direction, SpriteFrame, WalkStage } from "./types";
+import { AttackStage, Direction, WalkStage } from "./types";
 
 export type Component =
   | {
@@ -19,10 +19,6 @@ export type Component =
         x: number;
         y: number;
       };
-    }
-  | {
-      tag: "spriteFrame";
-      spriteFrame: SpriteFrame;
     }
   | {
       tag: "sprite";

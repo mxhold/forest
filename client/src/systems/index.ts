@@ -6,8 +6,6 @@ import keyboardMovement from "./keyboardMovement";
 import movement from "./movement";
 import playerSetup from "./playerSetup";
 import snakeSetup from "./snakeSetup";
-import attackStage from "./attackStage";
-import walkStage from "./walkStage";
 import walkAnimation from "./walkAnimation";
 import wanderingMovement from "./wanderingMovement";
 
@@ -22,6 +20,4 @@ export {
   snakeSetup,
   wanderingMovement,
   movement,
-  attackStage,
-  walkStage,
 };
