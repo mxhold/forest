@@ -1,7 +1,12 @@
 import { MOVEMENT } from "../config";
 import Context from "../Context";
-import { WalkStage } from "../types";
+import { Sprite } from "../engine";
+import { Position, WalkStage } from "../types";
 import { move, msToFrames } from "../utils";
+
+function toSpritePosition(sprite: Sprite, position: Position) {
+  return { x: position.x, y: position.y - sprite.height + MOVEMENT.tileWidth}
+}
 
 const framesPerStage = msToFrames(MOVEMENT.stageDurationMs);
 
@@ -43,10 +48,11 @@ export default function walkAnimation(ctx: Context) {
     "orientation",
     "walkStage",
     "position",
-    "spritePosition"
+    "spritePosition",
+    "sprite"
   )) {
     if (entity.fetch("walkStage") === "stop") {
-      entity.set("spritePosition", entity.fetch("position"));
+      entity.set("spritePosition", toSpritePosition(entity.fetch("sprite"), entity.fetch("position")));
       continue;
     }
 
@@ -66,9 +72,11 @@ export default function walkAnimation(ctx: Context) {
 
     const stageOffset = offset(entity.fetch("walkStage"), MOVEMENT.tileWidth);
 
+    const newPosition = move(entity.fetch("position"), entity.fetch("orientation"), stageOffset);
+
     entity.set(
       "spritePosition",
-      move(entity.fetch("position"), entity.fetch("orientation"), stageOffset)
+      toSpritePosition(entity.fetch("sprite"), newPosition)
     );
   }
 }
