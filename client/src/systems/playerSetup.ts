@@ -29,5 +29,8 @@ export default function playerSetup(ctx: Context) {
     .add({
       tag: "attackStage",
       attackStage: "done",
+    })
+    .add({
+      tag: "collide",
     });
 }

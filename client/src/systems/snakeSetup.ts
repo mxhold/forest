@@ -25,5 +25,8 @@ export default function snakeSetup(ctx: Context) {
     .add({
       tag: "walkStage",
       walkStage: "stop",
+    })
+    .add({
+      tag: "collide",
     });
 }

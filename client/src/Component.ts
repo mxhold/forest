@@ -39,4 +39,7 @@ export type Component =
   | {
       tag: "movementIntent";
       movementIntent: Direction;
+    }
+  | {
+      tag: "collide";
     };

@@ -4,7 +4,25 @@ import { Position } from "../types";
 import { move } from "../utils";
 
 function coordinates(position: Position) {
-  return { x: position.x / MOVEMENT.tileWidth, y: position.y / MOVEMENT.tileWidth }
+  return {
+    x: position.x / MOVEMENT.tileWidth,
+    y: position.y / MOVEMENT.tileWidth,
+  };
+}
+
+function walkable(ctx: Context, newPosition: Position) {
+  if (!ctx.foregroundCanvas.inBounds(newPosition)) {
+    return false;
+  }
+
+  for (const entity of ctx.entities.find("collide", "position")) {
+    const position = entity.fetch("position");
+    if (position.x === newPosition.x && position.y === newPosition.y) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 export default function movement(ctx: Context) {
@@ -29,9 +47,9 @@ export default function movement(ctx: Context) {
       MOVEMENT.tileWidth
     );
 
-    console.log(coordinates(newPosition))
+    console.log(coordinates(newPosition));
 
-    if (ctx.foregroundCanvas.inBounds(newPosition)) {
+    if (walkable(ctx, newPosition)) {
       entity.set("position", newPosition);
       entity.set("walkStage", "step1");
     }
