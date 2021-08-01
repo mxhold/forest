@@ -8,8 +8,16 @@ type SpriteName = keyof typeof SPRITES;
 export class UnloadedContext {
   entities: EntityCollection<Component> = new EntityCollection();
   frame: number = 1;
-  foregroundCanvas: Canvas = new Canvas({ id: "foreground-canvas", alpha: true, ...CANVAS.size });
-  backgroundCanvas: Canvas = new Canvas({ id: "background-canvas", alpha: false, ...CANVAS.size });
+  foregroundCanvas: Canvas = new Canvas({
+    id: "foreground-canvas",
+    alpha: true,
+    ...CANVAS.size,
+  });
+  backgroundCanvas: Canvas = new Canvas({
+    id: "background-canvas",
+    alpha: false,
+    ...CANVAS.size,
+  });
 
   pendingKeydown: KeyboardEvent["code"] | null = null;
 
@@ -19,8 +27,11 @@ export class UnloadedContext {
     for (const spriteName of spriteNames) {
       sprites[spriteName] = await Sprite.load(SPRITES[spriteName]);
     }
-    const backgroundImage = await loadImage("assets/tiles.png")
-    return new LoadedContext({ sprites, backgroundImage } as LoadedContextParams);
+    const backgroundImage = await loadImage("assets/tiles.png");
+    return new LoadedContext({
+      sprites,
+      backgroundImage,
+    } as LoadedContextParams);
   }
 }
 

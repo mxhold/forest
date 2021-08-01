@@ -39,11 +39,7 @@ export default class Canvas {
   }
 
   drawBackground(image: CanvasImageSource) {
-    this.#ctx.drawImage(
-      image,
-      0,
-      0
-    )
+    this.#ctx.drawImage(image, 0, 0);
   }
 
   drawSprite(
