@@ -1,4 +1,5 @@
 import { Sprite } from "./engine";
+import { SpriteConfig } from "./engine/models/Sprite";
 import { AttackStage, Direction, WalkStage } from "./types";
 
 export type Component =
@@ -23,6 +24,10 @@ export type Component =
   | {
       tag: "sprite";
       sprite: Sprite;
+    }
+  | {
+      tag: "spriteConfig";
+      spriteConfig: SpriteConfig;
     }
   | {
       tag: "keyboardControlled";

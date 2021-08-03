@@ -7,17 +7,19 @@ import {
   walkAnimation,
   countFrames,
   attack,
-  playerSetup,
-  snakeSetup,
+  // snakeSetup,
   wanderingMovement,
   movement,
   drawBackground,
+  webSocket,
+  loadSprite,
 } from "./systems";
 
 App.build<UnloadedContext, LoadedContext>(UnloadedContext)
-  .addStartupSystem(playerSetup)
-  .addStartupSystem(snakeSetup)
+  // .addStartupSystem(snakeSetup)
   .addStartupSystem(handleKeydown)
+  .addStartupSystem(webSocket)
+  .addSystem(loadSprite)
   .addSystem(keyboardMovement)
   .addSystem(wanderingMovement)
   .addSystem(attack)

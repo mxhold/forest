@@ -1,11 +1,11 @@
-import { MOVEMENT } from "../config";
+import { CANVAS, MOVEMENT } from "../config";
 import Context from "../Context";
 import { Sprite } from "../engine";
 import { Position, WalkStage } from "../types";
 import { move, msToFrames } from "../utils";
 
 function toSpritePosition(sprite: Sprite, position: Position) {
-  return { x: position.x, y: position.y - sprite.height + MOVEMENT.tileWidth };
+  return { x: position.x, y: position.y - sprite.height + CANVAS.tileWidth };
 }
 
 const framesPerStage = msToFrames(MOVEMENT.stageDurationMs);
@@ -48,14 +48,16 @@ export default function walkAnimation(ctx: Context) {
     "orientation",
     "walkStage",
     "position",
-    "spritePosition",
     "sprite"
   )) {
     if (entity.fetch("walkStage") === "stop") {
-      entity.set(
-        "spritePosition",
-        toSpritePosition(entity.fetch("sprite"), entity.fetch("position"))
-      );
+      entity.add({
+        tag: "spritePosition",
+        spritePosition: toSpritePosition(
+          entity.fetch("sprite"),
+          entity.fetch("position")
+        ),
+      });
       continue;
     }
 
@@ -73,7 +75,7 @@ export default function walkAnimation(ctx: Context) {
       }
     }
 
-    const stageOffset = offset(entity.fetch("walkStage"), MOVEMENT.tileWidth);
+    const stageOffset = offset(entity.fetch("walkStage"), CANVAS.tileWidth);
 
     const newPosition = move(
       entity.fetch("position"),
@@ -81,9 +83,9 @@ export default function walkAnimation(ctx: Context) {
       stageOffset
     );
 
-    entity.set(
-      "spritePosition",
-      toSpritePosition(entity.fetch("sprite"), newPosition)
-    );
+    entity.add({
+      tag: "spritePosition",
+      spritePosition: toSpritePosition(entity.fetch("sprite"), newPosition),
+    });
   }
 }

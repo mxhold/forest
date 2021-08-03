@@ -1,6 +1,7 @@
 import { SpriteConfig } from "./engine/models/Sprite";
 
 export const CANVAS = {
+  tileWidth: 20,
   size: { width: 400, height: 300 },
 };
 
@@ -10,7 +11,6 @@ export const ENGINE = {
 
 export const MOVEMENT = {
   stageDurationMs: 50,
-  tileWidth: 20,
   wanderEveryMs: 3000,
 };
 

@@ -1,14 +1,7 @@
-import { MOVEMENT } from "../config";
+import { CANVAS } from "../config";
 import Context from "../Context";
 import { Position } from "../types";
 import { move } from "../utils";
-
-function coordinates(position: Position) {
-  return {
-    x: position.x / MOVEMENT.tileWidth,
-    y: position.y / MOVEMENT.tileWidth,
-  };
-}
 
 function walkable(ctx: Context, newPosition: Position) {
   if (!ctx.foregroundCanvas.inBounds(newPosition)) {
@@ -44,10 +37,8 @@ export default function movement(ctx: Context) {
     const newPosition = move(
       entity.fetch("position"),
       movementIntent,
-      MOVEMENT.tileWidth
+      CANVAS.tileWidth
     );
-
-    console.log(coordinates(newPosition));
 
     if (walkable(ctx, newPosition)) {
       entity.set("position", newPosition);
