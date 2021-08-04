@@ -9,17 +9,13 @@ export type SpriteFrame =
   | "attack2"
   | "attack3";
 
-export type WebSocketMessage =
-  | {
-      tag: "player";
-      coordinates: Position;
-      spriteParams: SpriteParams;
-      isMe: boolean;
-    }
-  | {
-      tag: "background";
-      url: string;
-    };
+export type WebSocketMessage = {
+  tag: "player";
+  id: number;
+  coordinates: Position;
+  spriteParams: SpriteParams;
+  isMe: boolean;
+};
 
 export type SpriteParams = {
   name: string;

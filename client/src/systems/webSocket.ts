@@ -22,8 +22,8 @@ export default function webSocket(ctx: Context) {
       if (message.isMe) {
         entity.add({ tag: "keyboardControlled" });
       }
-    } else if (message.tag === "background") {
-      // TODO
+
+      ctx.addPlayer(message.id, entity);
     }
   };
 }

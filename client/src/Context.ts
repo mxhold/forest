@@ -1,6 +1,6 @@
 import { Component } from "./Component";
 import { CANVAS } from "./config";
-import { Canvas, EntityCollection, Sprite } from "./engine";
+import { Canvas, Entity, EntityCollection, Sprite } from "./engine";
 
 export default class Context {
   entities: EntityCollection<Component> = new EntityCollection();
@@ -17,4 +17,9 @@ export default class Context {
   });
   pendingKeydown: KeyboardEvent["code"] | null = null;
   sprites: Map<string, Sprite> = new Map();
+  players: Map<number, Entity<never, Component>> = new Map();
+
+  addPlayer(id: number, entity: Entity<any, Component>) {
+    this.players.set(id, entity as Entity<never, Component>);
+  }
 }

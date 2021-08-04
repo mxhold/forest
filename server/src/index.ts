@@ -32,6 +32,7 @@ function randomCoordinates() {
 }
 
 const map: Map<WebSocket, { x: number; y: number }> = new Map();
+const ids: Map<WebSocket, number> = new Map();
 
 const spriteParams: SpriteParams = {
   name: "player",
@@ -70,12 +71,16 @@ const spriteParams: SpriteParams = {
   ],
 };
 
+let lastId = 0;
+
 webSocketServer.on("connection", (player) => {
-  sendMessage(player, { tag: "background", url: "assets/background.png" });
+  const id = lastId++;
+  ids.set(player, id);
 
   const coordinates = randomCoordinates();
-  for (const coordinates of map.values()) {
+  for (const [otherPlayer, coordinates] of map) {
     sendMessage(player, {
+      id: ids.get(otherPlayer)!,
       tag: "player",
       spriteParams,
       coordinates,
@@ -87,6 +92,7 @@ webSocketServer.on("connection", (player) => {
 
   for (const allPlayer of map.keys()) {
     sendMessage(allPlayer, {
+      id,
       tag: "player",
       spriteParams,
       coordinates,
