@@ -25,8 +25,8 @@ export default function drawSprite(ctx: Context) {
       }
     });
 
-    entity.ifHas("walkStage", (e) => {
-      const walkStage = e.fetch("walkStage");
+    entity.ifHas("walkAnimation", (e) => {
+      const walkStage = e.fetch("walkAnimation").walkStage;
       if (walkStage === "step1") {
         spriteFrame = "step1";
       } else if (walkStage === "step2") {

@@ -26,10 +26,12 @@ export type Component =
   | {
       tag: "keyboardControlled";
     }
-  | { tag: "wandering" }
   | {
-      tag: "walkStage";
-      walkStage: WalkStage;
+      tag: "walkAnimation";
+      walkAnimation: {
+        walkStage: WalkStage;
+        startedAtFrame: number;
+      };
     }
   | {
       tag: "attackStage";

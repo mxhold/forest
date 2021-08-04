@@ -9,8 +9,11 @@ export class Player {
         orientation: "s",
       },
       {
-        tag: "walkStage",
-        walkStage: "stop",
+        tag: "walkAnimation",
+        walkAnimation: {
+          walkStage: "stop",
+          startedAtFrame: 0,
+        }
       },
       {
         tag: "attackStage",

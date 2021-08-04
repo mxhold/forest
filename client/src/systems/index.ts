@@ -6,7 +6,6 @@ import keyboardMovement from "./keyboardMovement";
 import loadSprite from "./loadSprite";
 import movement from "./movement";
 import walkAnimation from "./walkAnimation";
-import wanderingMovement from "./wanderingMovement";
 import webSocket from "./webSocket";
 
 export {
@@ -16,7 +15,6 @@ export {
   walkAnimation,
   countFrames,
   attack,
-  wanderingMovement,
   movement,
   webSocket,
   loadSprite,

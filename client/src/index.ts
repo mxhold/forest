@@ -7,7 +7,6 @@ import {
   walkAnimation,
   countFrames,
   attack,
-  wanderingMovement,
   movement,
   webSocket,
   loadSprite,
@@ -18,7 +17,6 @@ App.build(Context)
   .addStartupSystem(webSocket)
   .addSystem(loadSprite)
   .addSystem(keyboardMovement)
-  .addSystem(wanderingMovement)
   .addSystem(attack)
   .addSystem(movement)
   .addSystem(walkAnimation)

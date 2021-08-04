@@ -42,16 +42,15 @@ function nextStage(stage: WalkStage): WalkStage {
   throw new Error("unreachable");
 }
 
-let walkStartedAtFrame: null | number = null;
-
 export default function walkAnimation(ctx: Context) {
   for (const entity of ctx.entities.find(
     "orientation",
-    "walkStage",
+    "walkAnimation",
     "position",
     "sprite"
   )) {
-    if (entity.fetch("walkStage") === "stop") {
+    const walkAnimation = entity.fetch("walkAnimation")
+    if (walkAnimation.walkStage === "stop") {
       entity.add({
         tag: "spritePosition",
         spritePosition: toSpritePosition(
@@ -62,21 +61,14 @@ export default function walkAnimation(ctx: Context) {
       continue;
     }
 
-    if (walkStartedAtFrame === null) {
-      walkStartedAtFrame = ctx.frame;
-    }
-
     if (
       ctx.frame >
-      finishStageAtFrame(entity.fetch("walkStage")) + walkStartedAtFrame
+      finishStageAtFrame(walkAnimation.walkStage) + walkAnimation.startedAtFrame
     ) {
-      entity.set("walkStage", nextStage(entity.fetch("walkStage")));
-      if (entity.fetch("walkStage") === "stop") {
-        walkStartedAtFrame = null;
-      }
+      entity.set("walkAnimation", { ...walkAnimation, walkStage: nextStage(walkAnimation.walkStage) });
     }
 
-    const stageOffset = offset(entity.fetch("walkStage"), CANVAS.tileWidth);
+    const stageOffset = offset(entity.fetch("walkAnimation").walkStage, CANVAS.tileWidth);
 
     const newPosition = move(
       entity.fetch("position"),

@@ -22,7 +22,6 @@ export default function movement(ctx: Context) {
   for (const entity of ctx.entities.find(
     "movementIntent",
     "position",
-    "walkStage",
     "orientation"
   )) {
     const movementIntent = entity.fetch("movementIntent");
@@ -43,7 +42,13 @@ export default function movement(ctx: Context) {
 
     if (walkable(ctx, newPosition)) {
       entity.set("position", newPosition);
-      entity.set("walkStage", "step1");
+      entity.add({
+        tag: "walkAnimation",
+        walkAnimation: {
+          startedAtFrame: ctx.frame,
+          walkStage: "step1",
+        },
+      });
 
       ctx.send({
         tag: "move",

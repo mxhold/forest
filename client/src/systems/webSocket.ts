@@ -33,7 +33,6 @@ export default function webSocket(ctx: Context) {
       const { x, y } = message.coordinates;
 
       if (player) {
-        console.log("move", message);
         player.add({
           tag: "position",
           position: { x: x * CANVAS.tileWidth, y: y * CANVAS.tileWidth },
@@ -42,9 +41,13 @@ export default function webSocket(ctx: Context) {
           tag: "orientation",
           orientation: message.orientation,
         });
+        // TODO: consolidate with logic from movement system
         player.add({
-          tag: "walkStage",
-          walkStage: "step1",
+          tag: "walkAnimation",
+          walkAnimation: {
+            walkStage: "step1",
+            startedAtFrame: ctx.frame,
+          }
         });
       } else {
         console.error("missing player");
