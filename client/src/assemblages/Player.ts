@@ -13,7 +13,7 @@ export class Player {
         walkAnimation: {
           walkStage: "stop",
           startedAtFrame: 0,
-        }
+        },
       },
       {
         tag: "attackStage",

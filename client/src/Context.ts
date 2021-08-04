@@ -21,20 +21,20 @@ export default class Context {
   #players: Map<number, Entity<never, Component>> = new Map();
   #webSocket?: WebSocket;
 
-  addPlayer(id: number, entity: Entity<any, Component>) {
-    this.#players.set(id, entity as Entity<never, Component>);
+  addPlayer(playerId: number, entity: Entity<any, Component>) {
+    this.#players.set(playerId, entity as Entity<never, Component>);
   }
 
-  removePlayer(id: number) {
-    const player = this.#players.get(id);
+  removePlayer(playerId: number) {
+    const player = this.#players.get(playerId);
     if (player) {
-      this.entities.delete(player.id);
+      this.entities.delete(player.entityId);
     }
-    this.#players.delete(id);
+    this.#players.delete(playerId);
   }
 
-  getPlayer(id: number) {
-    return this.#players.get(id);
+  getPlayer(playerId: number) {
+    return this.#players.get(playerId);
   }
 
   setupWebSocket(ws: WebSocket) {

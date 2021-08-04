@@ -9,11 +9,11 @@ export class Entity<
   Component extends IComponent,
   AllComponents extends IComponent
 > {
-  id: number;
+  entityId: number;
   components: Map<Component["tag"], Component> = new Map();
 
-  constructor(id: number) {
-    this.id = id;
+  constructor(entityId: number) {
+    this.entityId = entityId;
   }
 
   add<C extends AllComponents>(
@@ -72,11 +72,11 @@ export class Entity<
 }
 
 export class EntityCollection<Component extends IComponent> {
-  nextId: number = 1;
+  nextEntityId: number = 1;
   entities: Entity<Component, Component>[] = [];
 
   create() {
-    const entity = new Entity<Component, Component>(this.nextId++);
+    const entity = new Entity<Component, Component>(this.nextEntityId++);
     this.entities.push(entity);
     return entity;
   }
@@ -90,9 +90,9 @@ export class EntityCollection<Component extends IComponent> {
     >[];
   }
 
-  delete(id: number) {
+  delete(entityId: number) {
     this.entities = this.entities.filter((e) => {
-      return e.id !== id;
+      return e.entityId !== entityId;
     });
   }
 }

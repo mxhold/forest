@@ -27,7 +27,7 @@ export default function webSocket(ctx: Context) {
         entity.add({ tag: "keyboardControlled" });
       }
 
-      ctx.addPlayer(message.id, entity);
+      ctx.addPlayer(message.playerId, entity);
     } else if (message.tag === "move") {
       const player = ctx.getPlayer(message.playerId);
       const { x, y } = message.coordinates;
@@ -47,7 +47,7 @@ export default function webSocket(ctx: Context) {
           walkAnimation: {
             walkStage: "step1",
             startedAtFrame: ctx.frame,
-          }
+          },
         });
       } else {
         console.error("missing player");

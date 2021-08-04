@@ -49,7 +49,7 @@ export default function walkAnimation(ctx: Context) {
     "position",
     "sprite"
   )) {
-    const walkAnimation = entity.fetch("walkAnimation")
+    const walkAnimation = entity.fetch("walkAnimation");
     if (walkAnimation.walkStage === "stop") {
       entity.add({
         tag: "spritePosition",
@@ -65,10 +65,16 @@ export default function walkAnimation(ctx: Context) {
       ctx.frame >
       finishStageAtFrame(walkAnimation.walkStage) + walkAnimation.startedAtFrame
     ) {
-      entity.set("walkAnimation", { ...walkAnimation, walkStage: nextStage(walkAnimation.walkStage) });
+      entity.set("walkAnimation", {
+        ...walkAnimation,
+        walkStage: nextStage(walkAnimation.walkStage),
+      });
     }
 
-    const stageOffset = offset(entity.fetch("walkAnimation").walkStage, CANVAS.tileWidth);
+    const stageOffset = offset(
+      entity.fetch("walkAnimation").walkStage,
+      CANVAS.tileWidth
+    );
 
     const newPosition = move(
       entity.fetch("position"),

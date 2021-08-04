@@ -84,7 +84,7 @@ webSocketServer.on("connection", (player) => {
   const coordinates = randomCoordinates();
   for (const [otherPlayer, coordinates] of map) {
     sendMessage(player, {
-      id: ids.get(otherPlayer)!,
+      playerId: ids.get(otherPlayer)!,
       tag: "player",
       spriteParams,
       coordinates,
@@ -96,7 +96,7 @@ webSocketServer.on("connection", (player) => {
 
   for (const allPlayer of map.keys()) {
     sendMessage(allPlayer, {
-      id,
+      playerId: id,
       tag: "player",
       spriteParams,
       coordinates,

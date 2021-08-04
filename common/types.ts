@@ -12,7 +12,7 @@ export type SpriteFrame =
 export type WebSocketServerMessage =
   | {
       tag: "player";
-      id: number;
+      playerId: number;
       coordinates: Position;
       // TODO: add orientation
       spriteParams: SpriteParams;

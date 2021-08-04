@@ -45,6 +45,6 @@ export type Component =
       tag: "collide";
     }
   | {
-      tag: "id";
-      id: number;
+      tag: "playerId";
+      playerId: number;
     };

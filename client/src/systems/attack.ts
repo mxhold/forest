@@ -56,6 +56,7 @@ export default function attack(ctx: Context) {
       ctx.frame >
       finishStageAtFrame(entity.fetch("attackStage")) + animationStartedAtFrame
     ) {
+      // TODO: send to server
       entity.set("attackStage", nextStage(entity.fetch("attackStage")));
       if (entity.fetch("attackStage") === "done") {
         animationStartedAtFrame = null;
