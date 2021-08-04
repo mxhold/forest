@@ -38,7 +38,7 @@ let animationStartedAtFrame: null | number = null;
 export default function attack(ctx: Context) {
   const key = pullKeydown(ctx, FOLLOWED_KEYS);
 
-  for (const entity of ctx.entities.find("attackStage")) {
+  for (const entity of ctx.entities.find("attackStage", "keyboardControlled")) {
     if (key === "Space" && entity.fetch("attackStage") === "done") {
       entity.set("attackStage", "attack1");
       continue;
