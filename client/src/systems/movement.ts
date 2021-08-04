@@ -31,6 +31,7 @@ export default function movement(ctx: Context) {
     // Don't move if just changing direction
     if (movementIntent !== entity.fetch("orientation")) {
       entity.set("orientation", movementIntent);
+      // TODO: send to server
       continue;
     }
 
@@ -43,6 +44,17 @@ export default function movement(ctx: Context) {
     if (walkable(ctx, newPosition)) {
       entity.set("position", newPosition);
       entity.set("walkStage", "step1");
+
+      if (ctx.webSocket) {
+        ctx.send({
+          tag: "move",
+          orientation: movementIntent,
+          coordinates: {
+            x: newPosition.x / CANVAS.tileWidth,
+            y: newPosition.y / CANVAS.tileWidth,
+          },
+        });
+      }
     }
   }
 }

@@ -2,7 +2,11 @@ import express, { Response } from "express";
 import { join } from "path";
 import { createServer } from "http";
 import WebSocket from "ws";
-import { SpriteParams, WebSocketMessage } from "../../common/types";
+import {
+  SpriteParams,
+  WebSocketClientMessage,
+  WebSocketServerMessage,
+} from "../../common/types";
 
 const app = express();
 
@@ -20,7 +24,7 @@ const server = createServer(app);
 
 const webSocketServer = new WebSocket.Server({ server });
 
-function sendMessage(ws: WebSocket, message: WebSocketMessage) {
+function sendMessage(ws: WebSocket, message: WebSocketServerMessage) {
   ws.send(JSON.stringify(message));
 }
 
@@ -102,6 +106,29 @@ webSocketServer.on("connection", (player) => {
 
   player.on("close", () => {
     map.delete(player);
+  });
+
+  player.on("message", (data) => {
+    const message = JSON.parse(data.toString()) as WebSocketClientMessage;
+
+    if (message.tag === "move") {
+      // TODO: collision checking
+      map.set(player, message.coordinates);
+
+      for (const allPlayer of map.keys()) {
+        if (allPlayer === player) {
+          // TODO: send position back to player to confirm
+          continue;
+        }
+
+        sendMessage(allPlayer, {
+          playerId: ids.get(player)!,
+          tag: "move",
+          orientation: message.orientation,
+          coordinates: message.coordinates,
+        });
+      }
+    }
   });
 });
 
