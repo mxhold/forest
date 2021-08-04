@@ -2,14 +2,22 @@ import { Position } from "../../../common/types";
 import { Player } from "../assemblages";
 import { CANVAS } from "../config";
 import Context from "../Context";
+import { Entity } from "../engine";
 import { move } from "../utils";
 
-function walkable(ctx: Context, newPosition: Position) {
+function walkable(
+  ctx: Context,
+  player: Entity<any, any>,
+  newPosition: Position
+) {
   if (!ctx.foregroundCanvas.inBounds(newPosition)) {
     return false;
   }
 
   for (const entity of ctx.entities.find("collide", "position")) {
+    if (entity === player) {
+      continue;
+    }
     const position = entity.fetch("position");
     if (position.x === newPosition.x && position.y === newPosition.y) {
       return false;
@@ -28,28 +36,20 @@ export default function movement(ctx: Context) {
     const movementIntent = entity.fetch("movementIntent");
     entity.delete("movementIntent");
 
-    // Don't actually move if just changing direction
+    let distance = CANVAS.tileWidth;
+
+    // Changing orientation is a zero-distance move
     if (movementIntent !== entity.fetch("orientation")) {
-      entity.set("orientation", movementIntent);
-      const position = entity.fetch("position");
-      ctx.send({
-        tag: "move",
-        orientation: movementIntent,
-        coordinates: {
-          x: position.x / CANVAS.tileWidth,
-          y: position.y / CANVAS.tileWidth,
-        },
-      });
-      continue;
+      distance = 0;
     }
 
     const newPosition = move(
       entity.fetch("position"),
       movementIntent,
-      CANVAS.tileWidth
+      distance
     );
 
-    if (walkable(ctx, newPosition)) {
+    if (walkable(ctx, entity, newPosition)) {
       Player.move(entity, newPosition, movementIntent, ctx.frame);
 
       ctx.send({

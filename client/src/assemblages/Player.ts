@@ -27,6 +27,8 @@ export class Player {
     });
 
     if (positionUnchanged) {
+      // This means the player just changed orientation
+      // so no need to animate or update position
       return;
     }
 
