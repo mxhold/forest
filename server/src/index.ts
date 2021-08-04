@@ -106,6 +106,13 @@ webSocketServer.on("connection", (player) => {
 
   player.on("close", () => {
     map.delete(player);
+
+    for (const allPlayer of map.keys()) {
+      sendMessage(allPlayer, {
+        playerId: id,
+        tag: "disconnect",
+      });
+    }
   });
 
   player.on("message", (data) => {

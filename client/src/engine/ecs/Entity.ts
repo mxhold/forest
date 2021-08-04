@@ -89,4 +89,10 @@ export class EntityCollection<Component extends IComponent> {
       Component
     >[];
   }
+
+  delete(id: number) {
+    this.entities = this.entities.filter((e) => {
+      return e.id !== id;
+    });
+  }
 }

@@ -50,6 +50,12 @@ export default function webSocket(ctx: Context) {
         console.error("missing player");
         // TODO: handle missing player
       }
+    } else if (message.tag === "disconnect") {
+      const player = ctx.players.get(message.playerId);
+
+      if (player) {
+        ctx.removePlayer(message.playerId);
+      }
     }
   };
 }

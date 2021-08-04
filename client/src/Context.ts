@@ -25,6 +25,14 @@ export default class Context {
     this.players.set(id, entity as Entity<never, Component>);
   }
 
+  removePlayer(id: number) {
+    const player = this.players.get(id);
+    if (player) {
+      this.entities.delete(player.id);
+    }
+    this.players.delete(id);
+  }
+
   send(message: WebSocketClientMessage) {
     this.webSocket?.send(JSON.stringify(message));
   }

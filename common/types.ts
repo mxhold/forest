@@ -23,6 +23,10 @@ export type WebSocketServerMessage =
       playerId: number;
       orientation: Direction;
       coordinates: Position;
+    }
+  | {
+      tag: "disconnect";
+      playerId: number;
     };
 
 export type WebSocketClientMessage = {
