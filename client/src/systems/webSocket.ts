@@ -29,7 +29,7 @@ export default function webSocket(ctx: Context) {
 
       ctx.addPlayer(message.id, entity);
     } else if (message.tag === "move") {
-      const player = ctx.players.get(message.playerId);
+      const player = ctx.getPlayer(message.playerId);
       const { x, y } = message.coordinates;
 
       if (player) {
@@ -51,7 +51,7 @@ export default function webSocket(ctx: Context) {
         // TODO: handle missing player
       }
     } else if (message.tag === "disconnect") {
-      const player = ctx.players.get(message.playerId);
+      const player = ctx.getPlayer(message.playerId);
 
       if (player) {
         ctx.removePlayer(message.playerId);

@@ -45,16 +45,14 @@ export default function movement(ctx: Context) {
       entity.set("position", newPosition);
       entity.set("walkStage", "step1");
 
-      if (ctx.webSocket) {
-        ctx.send({
-          tag: "move",
-          orientation: movementIntent,
-          coordinates: {
-            x: newPosition.x / CANVAS.tileWidth,
-            y: newPosition.y / CANVAS.tileWidth,
-          },
-        });
-      }
+      ctx.send({
+        tag: "move",
+        orientation: movementIntent,
+        coordinates: {
+          x: newPosition.x / CANVAS.tileWidth,
+          y: newPosition.y / CANVAS.tileWidth,
+        },
+      });
     }
   }
 }

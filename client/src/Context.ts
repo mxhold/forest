@@ -18,22 +18,29 @@ export default class Context {
   });
   pendingKeydown: KeyboardEvent["code"] | null = null;
   sprites: Map<string, Sprite> = new Map();
-  players: Map<number, Entity<never, Component>> = new Map();
-  webSocket?: WebSocket;
+  #players: Map<number, Entity<never, Component>> = new Map();
+  #webSocket?: WebSocket;
 
   addPlayer(id: number, entity: Entity<any, Component>) {
-    this.players.set(id, entity as Entity<never, Component>);
+    this.#players.set(id, entity as Entity<never, Component>);
   }
 
   removePlayer(id: number) {
-    const player = this.players.get(id);
+    const player = this.#players.get(id);
     if (player) {
       this.entities.delete(player.id);
     }
-    this.players.delete(id);
+    this.#players.delete(id);
+  }
+
+  getPlayer(id: number) {
+    return this.#players.get(id);
   }
 
   send(message: WebSocketClientMessage) {
-    this.webSocket?.send(JSON.stringify(message));
+    if (!this.#webSocket) {
+      throw new Error("No WebSocket");
+    }
+    this.#webSocket.send(JSON.stringify(message));
   }
 }
