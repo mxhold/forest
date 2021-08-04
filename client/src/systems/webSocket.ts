@@ -7,7 +7,7 @@ export default function webSocket(ctx: Context) {
   const webSocket = new WebSocket(`ws://${location.host}`);
 
   webSocket.onopen = () => {
-    ctx.webSocket = webSocket;
+    ctx.setupWebSocket(webSocket);
   };
 
   webSocket.onmessage = ({ data }) => {

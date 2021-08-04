@@ -37,6 +37,10 @@ export default class Context {
     return this.#players.get(id);
   }
 
+  setupWebSocket(ws: WebSocket) {
+    this.#webSocket = ws;
+  }
+
   send(message: WebSocketClientMessage) {
     if (!this.#webSocket) {
       throw new Error("No WebSocket");

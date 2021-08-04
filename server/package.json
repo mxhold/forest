@@ -2,7 +2,8 @@
   "scripts": {
     "check": "tsc",
     "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js",
-    "start": "bin/start"
+    "start": "bin/start",
+    "load": "esbuild src/loadTest.ts --bundle --platform=node --outfile=dist/loadTest.js && node dist/loadTest.js"
   },
   "dependencies": {
     "@types/ws": "^7.4.7",
