@@ -28,10 +28,18 @@ export default function movement(ctx: Context) {
     const movementIntent = entity.fetch("movementIntent");
     entity.delete("movementIntent");
 
-    // Don't move if just changing direction
+    // Don't actually move if just changing direction
     if (movementIntent !== entity.fetch("orientation")) {
       entity.set("orientation", movementIntent);
-      // TODO: send to server
+      const position = entity.fetch("position");
+      ctx.send({
+        tag: "move",
+        orientation: movementIntent,
+        coordinates: {
+          x: position.x / CANVAS.tileWidth,
+          y: position.y / CANVAS.tileWidth,
+        },
+      });
       continue;
     }
 

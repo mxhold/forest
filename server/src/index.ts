@@ -124,7 +124,7 @@ webSocketServer.on("connection", (player) => {
 
       for (const allPlayer of map.keys()) {
         if (allPlayer === player) {
-          // TODO: send position back to player to confirm
+          // TODO: send position back to player to confirm no collision
           continue;
         }
 

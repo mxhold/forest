@@ -6,24 +6,40 @@ import { Entity } from "../engine";
 export class Player {
   static move(
     player: Entity<any, Component>,
-    position: Position,
+    newPosition: Position,
     orientation: Direction,
     frame: number
   ) {
     player.add({
-      tag: "position",
-      position,
-    });
-    player.add({
       tag: "orientation",
       orientation,
     });
+
+    let positionUnchanged = false;
+    player.ifHas("position", (player) => {
+      const currentPosition = player.fetch("position");
+      if (
+        currentPosition.x === newPosition.x &&
+        currentPosition.y === newPosition.y
+      ) {
+        positionUnchanged = true;
+      }
+    });
+
+    if (positionUnchanged) {
+      return;
+    }
+
     player.add({
       tag: "walkAnimation",
       walkAnimation: {
         walkStage: "step1",
         startedAtFrame: frame,
       },
+    });
+    player.add({
+      tag: "position",
+      position: newPosition,
     });
   }
 
