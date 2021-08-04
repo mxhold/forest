@@ -33,24 +33,10 @@ export default function webSocket(ctx: Context) {
       const { x, y } = message.coordinates;
 
       if (player) {
-        player.add({
-          tag: "position",
-          position: { x: x * CANVAS.tileWidth, y: y * CANVAS.tileWidth },
-        });
-        player.add({
-          tag: "orientation",
-          orientation: message.orientation,
-        });
-        // TODO: consolidate with logic from movement system
-        player.add({
-          tag: "walkAnimation",
-          walkAnimation: {
-            walkStage: "step1",
-            startedAtFrame: ctx.frame,
-          },
-        });
+        const position = { x: x * CANVAS.tileWidth, y: y * CANVAS.tileWidth };
+        Player.move(player, position, message.orientation, ctx.frame);
       } else {
-        console.error("missing player");
+        console.warn("missing player", message.playerId);
         // TODO: handle missing player
       }
     } else if (message.tag === "disconnect") {

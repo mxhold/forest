@@ -1,4 +1,5 @@
 import { Position } from "../../../common/types";
+import { Player } from "../assemblages";
 import { CANVAS } from "../config";
 import Context from "../Context";
 import { move } from "../utils";
@@ -41,14 +42,7 @@ export default function movement(ctx: Context) {
     );
 
     if (walkable(ctx, newPosition)) {
-      entity.set("position", newPosition);
-      entity.add({
-        tag: "walkAnimation",
-        walkAnimation: {
-          startedAtFrame: ctx.frame,
-          walkStage: "step1",
-        },
-      });
+      Player.move(entity, newPosition, movementIntent, ctx.frame);
 
       ctx.send({
         tag: "move",
