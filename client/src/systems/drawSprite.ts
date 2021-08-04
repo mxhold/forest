@@ -1,6 +1,6 @@
+import { Position, Direction, SpriteFrame } from "../../../common/types";
 import Context from "../Context";
 import { Sprite } from "../engine";
-import { Direction, Position, SpriteFrame } from "../types";
 
 export default function drawSprite(ctx: Context) {
   ctx.foregroundCanvas.clear();

@@ -1,5 +1,5 @@
+import { Direction, Position } from "../../common/types";
 import { ENGINE } from "./config";
-import { Position, Direction } from "./types";
 
 export function move(
   position: Position,

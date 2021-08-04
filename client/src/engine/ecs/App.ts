@@ -1,36 +1,24 @@
 import { ENGINE } from "../../config";
 
-interface IUnloadedContext<LoadedContext> {
-  load(): Promise<LoadedContext>;
-}
-
-type UnloadedContextClass<
-  Context extends IUnloadedContext<LoadedContext>,
-  LoadedContext
-> = {
+type ContextClass<Context> = {
   new (): Context;
 };
 
 type System<Context> = (ctx: Context) => void;
 
-class AppBuilder<
-  UnloadedContext extends IUnloadedContext<LoadedContext>,
-  LoadedContext
-> {
-  app: App<UnloadedContext, LoadedContext>;
+class AppBuilder<Context> {
+  app: App<Context>;
 
-  constructor(
-    contextClass: UnloadedContextClass<UnloadedContext, LoadedContext>
-  ) {
+  constructor(contextClass: ContextClass<Context>) {
     this.app = new App(contextClass);
   }
 
-  addStartupSystem(system: System<LoadedContext>) {
+  addStartupSystem(system: System<Context>) {
     this.app.startupSystems.push(system);
     return this;
   }
 
-  addSystem(system: System<LoadedContext>) {
+  addSystem(system: System<Context>) {
     this.app.systems.push(system);
     return this;
   }
@@ -40,20 +28,13 @@ class AppBuilder<
   }
 }
 
-export default class App<
-  UnloadedContext extends IUnloadedContext<LoadedContext>,
-  LoadedContext
-> {
-  systems: System<LoadedContext>[] = [];
-  startupSystems: System<LoadedContext>[] = [];
-  unloadedContext: UnloadedContext;
-  loadedContext?: LoadedContext;
+export default class App<Context> {
+  systems: System<Context>[] = [];
+  startupSystems: System<Context>[] = [];
+  context: Context;
 
-  static build<
-    UnloadedContext extends IUnloadedContext<LoadedContext>,
-    LoadedContext
-  >(contextClass: UnloadedContextClass<UnloadedContext, LoadedContext>) {
-    return new AppBuilder<UnloadedContext, LoadedContext>(contextClass);
+  static build<Context>(contextClass: ContextClass<Context>) {
+    return new AppBuilder(contextClass);
   }
 
   static startLoop(execute: () => void) {
@@ -75,19 +56,11 @@ export default class App<
     window.requestAnimationFrame(loop);
   }
 
-  constructor(
-    contextClass: UnloadedContextClass<UnloadedContext, LoadedContext>
-  ) {
-    this.unloadedContext = new contextClass();
+  constructor(contextClass: ContextClass<Context>) {
+    this.context = new contextClass();
   }
 
   async run() {
-    try {
-      this.loadedContext = await this.unloadedContext.load();
-    } catch (e) {
-      console.error("Context loading error:", e);
-    }
-
     this.executeStartupSystems();
 
     App.startLoop(() => {
@@ -96,22 +69,14 @@ export default class App<
   }
 
   executeStartupSystems() {
-    if (!this.loadedContext) {
-      throw new Error("Context not loaded");
-    }
-
     for (const system of this.startupSystems) {
-      system(this.loadedContext);
+      system(this.context);
     }
   }
 
   executeSystems() {
-    if (!this.loadedContext) {
-      throw new Error("Context not loaded");
-    }
-
     for (const system of this.systems) {
-      system(this.loadedContext);
+      system(this.context);
     }
   }
 }

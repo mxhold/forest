@@ -1,11 +1,5 @@
-import { Direction, Size, SpriteFrame } from "../../types";
+import { Direction, SpriteFrame, SpriteParams } from "../../../../common/types";
 import { loadImage } from "../../utils";
-
-export type SpriteConfig = {
-  image: string;
-  size: Size;
-  frames: string[];
-};
 
 export default class Sprite {
   width: number;
@@ -34,7 +28,7 @@ export default class Sprite {
     size: { width, height },
     image,
     frames,
-  }: SpriteConfig): Promise<Sprite> {
+  }: SpriteParams): Promise<Sprite> {
     return new Sprite({
       image: await loadImage(image),
       width,

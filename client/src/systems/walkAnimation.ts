@@ -1,7 +1,8 @@
+import { Position } from "../../../common/types";
 import { CANVAS, MOVEMENT } from "../config";
 import Context from "../Context";
 import { Sprite } from "../engine";
-import { Position, WalkStage } from "../types";
+import { WalkStage } from "../types";
 import { move, msToFrames } from "../utils";
 
 function toSpritePosition(sprite: Sprite, position: Position) {

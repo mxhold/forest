@@ -1,6 +1,6 @@
+import { Direction, Position, SpriteParams } from "../../common/types";
 import { Sprite } from "./engine";
-import { SpriteConfig } from "./engine/models/Sprite";
-import { AttackStage, Direction, WalkStage } from "./types";
+import { AttackStage, WalkStage } from "./types";
 
 export type Component =
   | {
@@ -9,25 +9,19 @@ export type Component =
     }
   | {
       tag: "position";
-      position: {
-        x: number;
-        y: number;
-      };
+      position: Position;
     }
   | {
       tag: "spritePosition";
-      spritePosition: {
-        x: number;
-        y: number;
-      };
+      spritePosition: Position;
     }
   | {
       tag: "sprite";
       sprite: Sprite;
     }
   | {
-      tag: "spriteConfig";
-      spriteConfig: SpriteConfig;
+      tag: "spriteParams";
+      spriteParams: SpriteParams;
     }
   | {
       tag: "keyboardControlled";

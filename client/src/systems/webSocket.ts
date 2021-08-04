@@ -9,21 +9,21 @@ export default function webSocket(ctx: Context) {
   webSocket.onmessage = ({ data }) => {
     const message = JSON.parse(data) as WebSocketMessage;
 
-    if (message.tag === "setup") {
+    if (message.tag === "player") {
       const { x, y } = message.coordinates;
 
-      const entity = Player.build(ctx).add({
-        tag: "position",
-        position: { x: x * CANVAS.tileWidth, y: y * CANVAS.tileWidth },
-      });
-
-      console.log(message.isMe, message);
+      const entity = Player.build(ctx)
+        .add({
+          tag: "position",
+          position: { x: x * CANVAS.tileWidth, y: y * CANVAS.tileWidth },
+        })
+        .add({ tag: "spriteParams", spriteParams: message.spriteParams });
 
       if (message.isMe) {
-        entity.add({
-          tag: "keyboardControlled",
-        });
+        entity.add({ tag: "keyboardControlled" });
       }
+    } else if (message.tag === "background") {
+      // TODO
     }
   };
 }

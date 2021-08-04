@@ -1,9 +1,5 @@
-import { Component } from "../Component";
-import { MOVEMENT } from "../config";
+import { Direction } from "../../../common/types";
 import Context from "../Context";
-import { Entity } from "../engine/ecs/Entity";
-import { Direction } from "../types";
-import { move } from "../utils";
 import { pullKeydown } from "./handleKeydown";
 
 function mapKey(code: string): Direction | undefined {

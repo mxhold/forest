@@ -1,6 +1,6 @@
+import { Position } from "../../../common/types";
 import { CANVAS } from "../config";
 import Context from "../Context";
-import { Position } from "../types";
 import { move } from "../utils";
 
 function walkable(ctx: Context, newPosition: Position) {

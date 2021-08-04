@@ -2,7 +2,7 @@ import express, { Response } from "express";
 import { join } from "path";
 import { createServer } from "http";
 import WebSocket from "ws";
-import { WebSocketMessage } from "../../common/types";
+import { SpriteParams, WebSocketMessage } from "../../common/types";
 
 const app = express();
 
@@ -33,17 +33,62 @@ function randomCoordinates() {
 
 const map: Map<WebSocket, { x: number; y: number }> = new Map();
 
+const spriteParams: SpriteParams = {
+  name: "player",
+  image: "assets/player.png",
+  size: { width: 19, height: 38 },
+  // ["n", "s", "e", "w"].flatMap((d) =>
+  //   ["step1", "stand", "step2", "attack1", "attack2", "attack3"].map(
+  //     (f) => `${d}_${f}`
+  //   )
+  // )
+  frames: [
+    "n_step1",
+    "n_stand",
+    "n_step2",
+    "n_attack1",
+    "n_attack2",
+    "n_attack3",
+    "s_step1",
+    "s_stand",
+    "s_step2",
+    "s_attack1",
+    "s_attack2",
+    "s_attack3",
+    "e_step1",
+    "e_stand",
+    "e_step2",
+    "e_attack1",
+    "e_attack2",
+    "e_attack3",
+    "w_step1",
+    "w_stand",
+    "w_step2",
+    "w_attack1",
+    "w_attack2",
+    "w_attack3",
+  ],
+};
+
 webSocketServer.on("connection", (player) => {
+  sendMessage(player, { tag: "background", url: "assets/background.png" });
+
   const coordinates = randomCoordinates();
   for (const coordinates of map.values()) {
-    sendMessage(player, { tag: "setup", coordinates, isMe: false });
+    sendMessage(player, {
+      tag: "player",
+      spriteParams,
+      coordinates,
+      isMe: false,
+    });
   }
 
   map.set(player, coordinates);
 
   for (const allPlayer of map.keys()) {
     sendMessage(allPlayer, {
-      tag: "setup",
+      tag: "player",
+      spriteParams,
       coordinates,
       isMe: allPlayer === player,
     });

@@ -1,4 +1,4 @@
-import { Direction, Position, SpriteFrame } from "../../types";
+import { Position, Direction, SpriteFrame } from "../../../../common/types";
 import Sprite from "./Sprite";
 
 export default class Canvas {

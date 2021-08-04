@@ -1,4 +1,4 @@
-import LoadedContext, { UnloadedContext } from "./Context";
+import Context from "./Context";
 import { App } from "./engine";
 import {
   handleKeydown,
@@ -7,16 +7,13 @@ import {
   walkAnimation,
   countFrames,
   attack,
-  // snakeSetup,
   wanderingMovement,
   movement,
-  drawBackground,
   webSocket,
   loadSprite,
 } from "./systems";
 
-App.build<UnloadedContext, LoadedContext>(UnloadedContext)
-  // .addStartupSystem(snakeSetup)
+App.build(Context)
   .addStartupSystem(handleKeydown)
   .addStartupSystem(webSocket)
   .addSystem(loadSprite)
@@ -26,6 +23,5 @@ App.build<UnloadedContext, LoadedContext>(UnloadedContext)
   .addSystem(movement)
   .addSystem(walkAnimation)
   .addSystem(countFrames)
-  .addSystem(drawBackground)
   .addSystem(drawSprite)
   .run();

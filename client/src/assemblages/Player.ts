@@ -1,14 +1,9 @@
 import { Component } from "../Component";
-import { SPRITES } from "../config";
 import Context from "../Context";
 
 export class Player {
   static components(): Component[] {
     return [
-      {
-        tag: "spriteConfig",
-        spriteConfig: SPRITES.player,
-      },
       {
         tag: "orientation",
         orientation: "s",
