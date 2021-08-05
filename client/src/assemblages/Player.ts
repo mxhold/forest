@@ -1,4 +1,4 @@
-import { Direction, Position } from "../../../common/types";
+import { Direction, MapCoordinates } from "../../../common/types";
 import { Component } from "../Component";
 import Context from "../Context";
 import { Entity } from "../engine";
@@ -6,7 +6,7 @@ import { Entity } from "../engine";
 export class Player {
   static move(
     player: Entity<any, Component>,
-    newPosition: Position,
+    newCoordinates: MapCoordinates,
     orientation: Direction,
     frame: number
   ) {
@@ -16,11 +16,11 @@ export class Player {
     });
 
     let positionUnchanged = false;
-    player.ifHas("position", (player) => {
-      const currentPosition = player.fetch("position");
+    player.ifHas("mapCoordinates", (player) => {
+      const currentCoordinates = player.fetch("mapCoordinates");
       if (
-        currentPosition.x === newPosition.x &&
-        currentPosition.y === newPosition.y
+        currentCoordinates.x === newCoordinates.x &&
+        currentCoordinates.y === newCoordinates.y
       ) {
         positionUnchanged = true;
       }
@@ -40,8 +40,8 @@ export class Player {
       },
     });
     player.add({
-      tag: "position",
-      position: newPosition,
+      tag: "mapCoordinates",
+      mapCoordinates: newCoordinates,
     });
   }
 

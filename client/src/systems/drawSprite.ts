@@ -1,11 +1,11 @@
-import { Position, Direction, SpriteFrame } from "../../../common/types";
+import { CanvasPosition, Direction, SpriteFrame } from "../../../common/types";
 import Context from "../Context";
 import { Sprite } from "../engine";
 
 export default function drawSprite(ctx: Context) {
   ctx.foregroundCanvas.clear();
 
-  let sprites: [Sprite, Position, Direction, SpriteFrame][] = [];
+  let sprites: [Sprite, CanvasPosition, Direction, SpriteFrame][] = [];
 
   for (let entity of ctx.entities.find(
     "sprite",
@@ -51,10 +51,10 @@ export default function drawSprite(ctx: Context) {
     }
   );
 
-  for (const [sprite, spritePosition, orientation, spriteFrame] of sprites) {
+  for (const [sprite, canvasPosition, orientation, spriteFrame] of sprites) {
     ctx.foregroundCanvas.drawSprite(
       sprite,
-      spritePosition,
+      canvasPosition,
       orientation,
       spriteFrame
     );

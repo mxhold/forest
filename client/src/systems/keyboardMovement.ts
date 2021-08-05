@@ -27,11 +27,7 @@ export default function movement(ctx: Context) {
     return;
   }
 
-  for (let entity of ctx.entities.find(
-    "walkAnimation",
-    "keyboardControlled",
-    "position"
-  )) {
+  for (let entity of ctx.entities.find("walkAnimation", "keyboardControlled")) {
     if (entity.fetch("walkAnimation").walkStage !== "stop") {
       continue;
     }

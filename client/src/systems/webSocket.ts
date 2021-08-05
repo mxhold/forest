@@ -1,6 +1,5 @@
 import Context from "../Context";
 import { WebSocketServerMessage } from "../../../common/types";
-import { CANVAS } from "../config";
 import { Player } from "../assemblages";
 
 export default function webSocket(ctx: Context) {
@@ -18,8 +17,12 @@ export default function webSocket(ctx: Context) {
 
       const entity = Player.build(ctx)
         .add({
-          tag: "position",
-          position: { x: x * CANVAS.tileWidth, y: y * CANVAS.tileWidth },
+          tag: "mapCoordinates",
+          mapCoordinates: {
+            type: "MapCoordinates",
+            x,
+            y,
+          },
         })
         .add({ tag: "spriteParams", spriteParams: message.spriteParams });
 
@@ -30,11 +33,14 @@ export default function webSocket(ctx: Context) {
       ctx.addPlayer(message.playerId, entity);
     } else if (message.tag === "move") {
       const player = ctx.getPlayer(message.playerId);
-      const { x, y } = message.coordinates;
 
       if (player) {
-        const position = { x: x * CANVAS.tileWidth, y: y * CANVAS.tileWidth };
-        Player.move(player, position, message.orientation, ctx.frame);
+        Player.move(
+          player,
+          message.coordinates,
+          message.orientation,
+          ctx.frame
+        );
       } else {
         console.warn("missing player", message.playerId);
         // TODO: handle missing player

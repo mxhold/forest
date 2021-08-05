@@ -1,4 +1,9 @@
-import { Direction, Position, SpriteParams } from "../../common/types";
+import {
+  Direction,
+  MapCoordinates,
+  CanvasPosition,
+  SpriteParams,
+} from "../../common/types";
 import { Sprite } from "./engine";
 import { AttackStage, WalkStage } from "./types";
 
@@ -8,12 +13,12 @@ export type Component =
       orientation: Direction;
     }
   | {
-      tag: "position";
-      position: Position;
+      tag: "mapCoordinates";
+      mapCoordinates: MapCoordinates;
     }
   | {
       tag: "spritePosition";
-      spritePosition: Position;
+      spritePosition: CanvasPosition;
     }
   | {
       tag: "sprite";

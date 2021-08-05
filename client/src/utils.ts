@@ -1,11 +1,27 @@
-import { Direction, Position } from "../../common/types";
-import { ENGINE } from "./config";
+import { Direction, MapCoordinates, CanvasPosition } from "../../common/types";
+import { CANVAS, ENGINE } from "./config";
 
-export function move(
+export function posToCoords(position: CanvasPosition): MapCoordinates {
+  return {
+    type: "MapCoordinates",
+    x: position.x / CANVAS.tileWidth,
+    y: position.y / CANVAS.tileWidth,
+  };
+}
+
+export function coordsToPos(coordinates: MapCoordinates): CanvasPosition {
+  return {
+    type: "CanvasPosition",
+    x: coordinates.x * CANVAS.tileWidth,
+    y: coordinates.y * CANVAS.tileWidth,
+  };
+}
+
+export function move<Position extends CanvasPosition | MapCoordinates>(
   position: Position,
   movement: Direction,
   distance: number
-) {
+): Position {
   if (movement === "e") {
     return { ...position, x: position.x + distance };
   } else if (movement === "w") {

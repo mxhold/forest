@@ -1,12 +1,19 @@
-import { Position } from "../../../common/types";
+import { CanvasPosition } from "../../../common/types";
 import { CANVAS, MOVEMENT } from "../config";
 import Context from "../Context";
 import { Sprite } from "../engine";
 import { WalkStage } from "../types";
-import { move, msToFrames } from "../utils";
+import { coordsToPos, move, msToFrames } from "../utils";
 
-function toSpritePosition(sprite: Sprite, position: Position) {
-  return { x: position.x, y: position.y - sprite.height + CANVAS.tileWidth };
+function toSpritePosition(
+  sprite: Sprite,
+  position: CanvasPosition
+): CanvasPosition {
+  return {
+    ...position,
+    x: position.x,
+    y: position.y - sprite.height + CANVAS.tileWidth,
+  };
 }
 
 const framesPerStage = msToFrames(MOVEMENT.stageDurationMs);
@@ -44,9 +51,8 @@ function nextStage(stage: WalkStage): WalkStage {
 
 export default function walkAnimation(ctx: Context) {
   for (const entity of ctx.entities.find(
-    "orientation",
     "walkAnimation",
-    "position",
+    "mapCoordinates",
     "sprite"
   )) {
     const walkAnimation = entity.fetch("walkAnimation");
@@ -55,9 +61,22 @@ export default function walkAnimation(ctx: Context) {
         tag: "spritePosition",
         spritePosition: toSpritePosition(
           entity.fetch("sprite"),
-          entity.fetch("position")
+          coordsToPos(entity.fetch("mapCoordinates"))
         ),
       });
+      continue;
+    }
+  }
+
+  for (const entity of ctx.entities.find(
+    "orientation",
+    "walkAnimation",
+    "sprite",
+    "spritePosition",
+    "mapCoordinates"
+  )) {
+    const walkAnimation = entity.fetch("walkAnimation");
+    if (walkAnimation.walkStage === "stop") {
       continue;
     }
 
@@ -77,7 +96,7 @@ export default function walkAnimation(ctx: Context) {
     );
 
     const newPosition = move(
-      entity.fetch("position"),
+      coordsToPos(entity.fetch("mapCoordinates")),
       entity.fetch("orientation"),
       stageOffset
     );

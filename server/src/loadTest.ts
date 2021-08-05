@@ -1,5 +1,6 @@
 import WebSocket from "ws";
 import {
+  MapCoordinates,
   WebSocketClientMessage,
   WebSocketServerMessage,
 } from "../../common/types";
@@ -27,7 +28,8 @@ function start() {
     const message = JSON.parse(data.toString()) as WebSocketServerMessage;
 
     if (message.tag === "player" && message.isMe) {
-      const coordinates = {
+      const coordinates: MapCoordinates = {
+        type: "MapCoordinates",
         x: message.coordinates.x + 1,
         y: message.coordinates.y,
       };

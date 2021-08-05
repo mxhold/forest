@@ -3,10 +3,12 @@ import { join } from "path";
 import { createServer } from "http";
 import WebSocket from "ws";
 import {
+  MapCoordinates,
   SpriteParams,
   WebSocketClientMessage,
   WebSocketServerMessage,
 } from "../../common/types";
+import { config } from "./config";
 
 const app = express();
 
@@ -28,14 +30,14 @@ function sendMessage(ws: WebSocket, message: WebSocketServerMessage) {
   ws.send(JSON.stringify(message));
 }
 
-function randomCoordinates() {
-  const x = Math.floor(Math.random() * 20);
-  const y = Math.floor(Math.random() * 15);
+function randomCoordinates(): MapCoordinates {
+  const x = Math.floor(Math.random() * config.mapSize.width);
+  const y = Math.floor(Math.random() * config.mapSize.height);
 
-  return { x, y };
+  return { type: "MapCoordinates", x, y };
 }
 
-const map: Map<WebSocket, { x: number; y: number }> = new Map();
+const map: Map<WebSocket, MapCoordinates> = new Map();
 const ids: Map<WebSocket, number> = new Map();
 
 const spriteParams: SpriteParams = {

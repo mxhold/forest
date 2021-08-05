@@ -1,4 +1,8 @@
-import { Position, Direction, SpriteFrame } from "../../../../common/types";
+import {
+  CanvasPosition,
+  Direction,
+  SpriteFrame,
+} from "../../../../common/types";
 import Sprite from "./Sprite";
 
 export default class Canvas {
@@ -28,23 +32,13 @@ export default class Canvas {
     this.#ctx.clearRect(0, 0, this.width, this.height);
   }
 
-  drawSquare(x: number, y: number, w: number, h: number) {
-    this.#ctx.fillRect(x, y, w, h);
-  }
-
-  drawCircle(x: number, y: number, w: number) {
-    this.#ctx.beginPath();
-    this.#ctx.arc(x, y, w, 0, 2 * Math.PI);
-    this.#ctx.fill();
-  }
-
   drawBackground(image: CanvasImageSource) {
     this.#ctx.drawImage(image, 0, 0);
   }
 
   drawSprite(
     sprite: Sprite,
-    position: Position,
+    position: CanvasPosition,
     direction: Direction,
     spriteFrame: SpriteFrame
   ) {
@@ -62,7 +56,7 @@ export default class Canvas {
     );
   }
 
-  inBounds(position: Position) {
+  inBounds(position: CanvasPosition) {
     return (
       position.x >= 0 &&
       position.y >= 0 &&

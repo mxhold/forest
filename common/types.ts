@@ -1,5 +1,7 @@
 export type Direction = "n" | "s" | "e" | "w";
-export type Position = { x: number; y: number };
+type Position<Type extends string> = { type: Type; x: number; y: number };
+export type CanvasPosition = Position<"CanvasPosition">;
+export type MapCoordinates = Position<"MapCoordinates">;
 export type Size = { width: number; height: number };
 export type SpriteFrame =
   | "stand"
@@ -13,7 +15,7 @@ export type WebSocketServerMessage =
   | {
       tag: "player";
       playerId: number;
-      coordinates: Position;
+      coordinates: MapCoordinates;
       // TODO: add orientation
       spriteParams: SpriteParams;
       isMe: boolean;
@@ -22,7 +24,7 @@ export type WebSocketServerMessage =
       tag: "move";
       playerId: number;
       orientation: Direction;
-      coordinates: Position;
+      coordinates: MapCoordinates;
     }
   | {
       tag: "disconnect";
@@ -31,7 +33,7 @@ export type WebSocketServerMessage =
 
 export type WebSocketClientMessage = {
   tag: "move";
-  coordinates: Position;
+  coordinates: MapCoordinates;
   orientation: Direction;
 };
 
